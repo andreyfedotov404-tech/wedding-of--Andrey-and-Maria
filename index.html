@@ -205,16 +205,16 @@ body {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  filter: saturate(0.5) brightness(0.45);
+  filter: saturate(0.4) brightness(0.3);
   z-index: 0;
 }
 .program-overlay {
   position: absolute; inset: 0;
   background:
     linear-gradient(180deg,
-      rgba(74,23,34,0.85) 0%,
-      rgba(42,26,31,0.75) 50%,
-      rgba(74,23,34,0.85) 100%);
+      rgba(74,23,34,0.92) 0%,
+      rgba(42,26,31,0.88) 50%,
+      rgba(74,23,34,0.92) 100%);
   z-index: 1;
 }
 .program-section .section-title {
@@ -468,24 +468,30 @@ body {
 
 /* ===== ДРЕСС-КОД ===== */
 .dress-grid {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 1.5rem; max-width: 700px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem 1.5rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+@media (max-width: 700px) {
+  .dress-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem 1rem; }
 }
 .dress-swatch {
   text-align: center;
 }
 .dress-color {
-  width: 90px; height: 90px; border-radius: 50%;
-  margin: 0 auto 1rem; border: 1px solid rgba(0,0,0,0.05);
+  width: 80px; height: 80px; border-radius: 50%;
+  margin: 0 auto 1rem; border: 0.5px solid rgba(0,0,0,0.08);
   transition: transform 0.4s ease;
 }
 .dress-swatch:hover .dress-color { transform: scale(1.08); }
 .dress-name {
-  font-family: var(--serif); font-size: 17px;
+  font-family: var(--serif); font-size: 16px;
   color: var(--ink); margin-bottom: 4px;
 }
 .dress-hex {
-  font-family: var(--sans); font-size: 11px;
+  font-family: var(--sans); font-size: 10px;
   color: var(--muted); letter-spacing: 2px;
 }
 .dress-note {
@@ -785,7 +791,6 @@ body {
         <div class="tl-marker"><div class="tl-dot"></div></div>
         <div class="tl-content">
           <h3>Welcome-фуршет</h3>
-          <p>Открытие бара, живой саксофон</p>
         </div>
       </div>
       <div class="tl-item">
@@ -883,9 +888,19 @@ body {
         <div class="dress-hex">#6B2330</div>
       </div>
       <div class="dress-swatch">
+        <div class="dress-color" style="background: #4a1722;"></div>
+        <div class="dress-name">Wine</div>
+        <div class="dress-hex">#4A1722</div>
+      </div>
+      <div class="dress-swatch">
         <div class="dress-color" style="background: #6b7a2f;"></div>
         <div class="dress-name">Olive</div>
         <div class="dress-hex">#6B7A2F</div>
+      </div>
+      <div class="dress-swatch">
+        <div class="dress-color" style="background: #97a87c;"></div>
+        <div class="dress-name">Sage</div>
+        <div class="dress-hex">#97A87C</div>
       </div>
       <div class="dress-swatch">
         <div class="dress-color" style="background: #d4a5a5;"></div>
@@ -893,14 +908,19 @@ body {
         <div class="dress-hex">#D4A5A5</div>
       </div>
       <div class="dress-swatch">
+        <div class="dress-color" style="background: #a87878;"></div>
+        <div class="dress-name">Mauve</div>
+        <div class="dress-hex">#A87878</div>
+      </div>
+      <div class="dress-swatch">
         <div class="dress-color" style="background: #5a3a2e;"></div>
         <div class="dress-name">Chocolate</div>
         <div class="dress-hex">#5A3A2E</div>
       </div>
       <div class="dress-swatch">
-        <div class="dress-color" style="background: #f2ede0;"></div>
-        <div class="dress-name">Ivory</div>
-        <div class="dress-hex">#F2EDE0</div>
+        <div class="dress-color" style="background: #c9a961;"></div>
+        <div class="dress-name">Champagne</div>
+        <div class="dress-hex">#C9A961</div>
       </div>
     </div>
     <div class="dress-note">просим воздержаться от белого — этот цвет&nbsp;только для невесты</div>
@@ -980,33 +1000,55 @@ body {
 
 <script>
 // ===== ПРЕЛОАДЕР =====
-window.addEventListener('load', function() {
-  setTimeout(function() {
-    document.getElementById('preloader').classList.add('hidden');
-  }, 1800);
+// Прячем как можно раньше — когда HTML распарсен, не ждём загрузку всех картинок и iframe
+function hidePreloader() {
+  var pl = document.getElementById('preloader');
+  if (pl) pl.classList.add('hidden');
+}
+// 1. По DOMContentLoaded (HTML готов)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(hidePreloader, 1500);
+  });
+} else {
+  setTimeout(hidePreloader, 1500);
+}
+// 2. Аварийный fallback — точно скроется через 3 секунды что бы ни случилось
+setTimeout(hidePreloader, 3000);
+
+// Глобальный отлов ошибок чтобы один сбой не клал всю страницу
+window.addEventListener('error', function(e) {
+  hidePreloader();
 });
 
 // ===== ОБРАТНЫЙ ОТСЧЁТ =====
 function pad(n) { return String(n).padStart(2, '0'); }
 function tick() {
-  var target = new Date('2026-08-22T14:00:00');
-  var now = new Date();
-  var diff = target - now;
-  if (diff <= 0) {
-    document.getElementById('cd-d').textContent = '0';
-    document.getElementById('cd-h').textContent = '00';
-    document.getElementById('cd-m').textContent = '00';
-    document.getElementById('cd-s').textContent = '00';
-    return;
-  }
-  var d = Math.floor(diff / 86400000);
-  var h = Math.floor((diff % 86400000) / 3600000);
-  var m = Math.floor((diff % 3600000) / 60000);
-  var s = Math.floor((diff % 60000) / 1000);
-  document.getElementById('cd-d').textContent = d;
-  document.getElementById('cd-h').textContent = pad(h);
-  document.getElementById('cd-m').textContent = pad(m);
-  document.getElementById('cd-s').textContent = pad(s);
+  try {
+    var target = new Date('2026-08-22T14:00:00');
+    var now = new Date();
+    var diff = target - now;
+    var elD = document.getElementById('cd-d');
+    var elH = document.getElementById('cd-h');
+    var elM = document.getElementById('cd-m');
+    var elS = document.getElementById('cd-s');
+    if (!elD || !elH || !elM || !elS) return;
+    if (diff <= 0) {
+      elD.textContent = '0';
+      elH.textContent = '00';
+      elM.textContent = '00';
+      elS.textContent = '00';
+      return;
+    }
+    var d = Math.floor(diff / 86400000);
+    var h = Math.floor((diff % 86400000) / 3600000);
+    var m = Math.floor((diff % 3600000) / 60000);
+    var s = Math.floor((diff % 60000) / 1000);
+    elD.textContent = d;
+    elH.textContent = pad(h);
+    elM.textContent = pad(m);
+    elS.textContent = pad(s);
+  } catch (err) {}
 }
 tick();
 setInterval(tick, 1000);
@@ -1025,8 +1067,11 @@ function createPetal() {
   var size = 8 + Math.random() * 10;
   p.style.width = size + 'px';
   p.style.height = size + 'px';
-  document.getElementById('petals').appendChild(p);
-  setTimeout(function() { p.remove(); }, 16000);
+  var petalsContainer = document.getElementById('petals');
+  if (petalsContainer) {
+    petalsContainer.appendChild(p);
+    setTimeout(function() { p.remove(); }, 16000);
+  }
 }
 setInterval(createPetal, 600);
 for (var i = 0; i < 8; i++) setTimeout(createPetal, i * 400);
