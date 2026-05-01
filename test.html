@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Диагностика</title>
+<style>
+  body { font-family: system-ui, sans-serif; padding: 20px; background: #faf3e8; color: #2a1a1f; }
+  h1 { font-size: 22px; margin-bottom: 16px; }
+  .test { padding: 12px; margin: 8px 0; border-left: 4px solid #ccc; background: white; border-radius: 4px; }
+  .test.ok { border-color: #2c8c4e; }
+  .test.fail { border-color: #c33; }
+  .test b { display: block; font-size: 14px; }
+  .test span { font-size: 12px; color: #666; }
+  #log { background: #fff; padding: 12px; margin-top: 20px; font-family: monospace; font-size: 11px; white-space: pre-wrap; word-break: break-all; border-radius: 4px; max-height: 300px; overflow-y: auto; }
+  button { padding: 12px 20px; background: #6b2330; color: white; border: none; border-radius: 4px; font-size: 16px; margin-top: 20px; }
+</style>
+</head>
+<body>
+<h1>🔍 Диагностика свадебного сайта</h1>
+
+<div class="test" id="t-html"><b>Шаг 1: HTML загружается</b><span id="t-html-r">…</span></div>
+<div class="test" id="t-js"><b>Шаг 2: JavaScript работает</b><span id="t-js-r">…</span></div>
+<div class="test" id="t-fonts"><b>Шаг 3: Google Fonts</b><span id="t-fonts-r">…</span></div>
+<div class="test" id="t-photo-main"><b>Шаг 4: Фото пары (photo-main.jpg)</b><span id="t-photo-main-r">…</span></div>
+<div class="test" id="t-photo-hero"><b>Шаг 5: Фото-фон (photo-hero.jpg)</b><span id="t-photo-hero-r">…</span></div>
+<div class="test" id="t-iframe"><b>Шаг 6: Google Form (iframe)</b><span id="t-iframe-r">…</span></div>
+<div class="test" id="t-ua"><b>Браузер и устройство</b><span id="t-ua-r">…</span></div>
+
+<button onclick="window.location.href='./'">Перейти на сайт</button>
+
+<div id="log"></div>
+
+<script>
+function log(msg) {
+  var l = document.getElementById('log');
+  l.textContent += msg + '\n';
+}
+
+function pass(id, msg) {
+  document.getElementById(id).classList.add('ok');
+  document.getElementById(id + '-r').textContent = '✓ ' + msg;
+  log('OK ' + id + ': ' + msg);
+}
+function fail(id, msg) {
+  document.getElementById(id).classList.add('fail');
+  document.getElementById(id + '-r').textContent = '✗ ' + msg;
+  log('FAIL ' + id + ': ' + msg);
+}
+
+// Тест 1: HTML
+pass('t-html', 'OK');
+
+// Тест 2: JS
+try {
+  var arr = [1,2,3].map(function(x){ return x*2; });
+  pass('t-js', 'OK, работает');
+} catch(e) { fail('t-js', e.message); }
+
+// Тест 3: Шрифты
+var f = new Image();
+fetch('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap')
+  .then(function(r){ if (r.ok) pass('t-fonts', 'Google Fonts доступен'); else fail('t-fonts', 'статус ' + r.status); })
+  .catch(function(e){ fail('t-fonts', 'НЕ загружается: ' + e.message); });
+
+// Тест 4: Фото пары
+var img1 = new Image();
+img1.onload = function(){ pass('t-photo-main', 'Загружено ' + img1.naturalWidth + 'x' + img1.naturalHeight); };
+img1.onerror = function(){ fail('t-photo-main', 'НЕ загрузилось'); };
+img1.src = './photo-main.jpg?t=' + Date.now();
+
+// Тест 5: Фото-фон
+var img2 = new Image();
+img2.onload = function(){ pass('t-photo-hero', 'Загружено ' + img2.naturalWidth + 'x' + img2.naturalHeight); };
+img2.onerror = function(){ fail('t-photo-hero', 'НЕ загрузилось — возможно файл photo-hero.jpg отсутствует'); };
+img2.src = './photo-hero.jpg?t=' + Date.now();
+
+// Тест 6: iframe Google
+fetch('https://docs.google.com/forms/', { mode: 'no-cors' })
+  .then(function(){ pass('t-iframe', 'Google доступен'); })
+  .catch(function(e){ fail('t-iframe', 'Google недоступен: ' + e.message); });
+
+// UserAgent
+document.getElementById('t-ua-r').textContent = navigator.userAgent;
+log('UA: ' + navigator.userAgent);
+log('Размер экрана: ' + window.innerWidth + 'x' + window.innerHeight);
+log('devicePixelRatio: ' + window.devicePixelRatio);
+
+// Глобальные ошибки
+window.addEventListener('error', function(e){
+  log('ERROR: ' + e.message + ' (' + e.filename + ':' + e.lineno + ')');
+});
+</script>
+</body>
+</html>
