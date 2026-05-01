@@ -11,6 +11,9 @@
 <meta property="og:description" content="Приглашаем разделить с нами этот особенный день">
 <meta property="og:type" content="website">
 
+<!-- Favicon: монограмма A&M в стиле сайта -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23faf3e8'/%3E%3Ctext x='50%25' y='44' font-family='Georgia, serif' font-size='30' font-weight='400' fill='%236b2330' text-anchor='middle'%3EA%3C/text%3E%3Ctext x='50%25' y='44' font-family='cursive' font-size='14' fill='%23c9a961' text-anchor='middle' dx='14'%3E%26amp;%3C/text%3E%3Ctext x='50%25' y='58' font-family='Georgia, serif' font-size='14' fill='%236b2330' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E">
+
 <!-- Шрифты: Playfair (журнальный), Cormorant (романтичный сериф), Italianno (рукописный), Inter (UI) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -471,6 +474,20 @@ body {
   font-family: var(--serif); font-size: 28px;
   color: var(--gold); font-style: italic;
 }
+/* Обёртка для встроенной Google Form */
+.rsvp-iframe-wrap {
+  max-width: 640px; margin: 0 auto;
+  background: var(--cream);
+  border: 0.5px solid var(--gold);
+  border-radius: 4px;
+  padding: 1rem;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+.rsvp-iframe-wrap iframe {
+  display: block; width: 100%;
+  border-radius: 2px;
+  background: var(--cream);
+}
 
 /* ===== ФУТЕР ===== */
 .footer {
@@ -487,9 +504,10 @@ body {
   color: var(--gold); margin-bottom: 1rem;
 }
 .footer-date {
-  font-family: var(--serif-soft); font-style: italic;
-  font-size: 14px; color: var(--muted);
-  letter-spacing: 4px; text-transform: uppercase;
+  font-family: var(--serif); font-style: normal;
+  font-size: 22px; color: var(--burgundy);
+  letter-spacing: 6px;
+  font-weight: 400;
 }
 
 /* ===== АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ ===== */
@@ -596,24 +614,18 @@ body {
   </div>
 </section>
 
-<!-- ИСТОРИЯ -->
+<!-- ПРИГЛАШЕНИЕ С ФОТО -->
 <section class="section reveal">
-  <div class="section-eyebrow">наша история</div>
-  <h2 class="section-title">Как всё начиналось</h2>
-  <div class="section-divider">
-    <div class="section-divider-line"></div>
-    <span class="section-divider-icon">✦</span>
-    <div class="section-divider-line"></div>
+  <div class="section-eyebrow">мы — Андрей и Мария</section>
+
+  <div style="display: flex; justify-content: center; margin: 2rem 0 3rem;">
+    <div class="photo-frame" style="aspect-ratio: 4/3; max-width: 520px;">
+      <img src="photo-main.jpg" alt="Андрей и Мария" style="width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 0;">
+    </div>
   </div>
 
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin-bottom: 3rem;" class="story-layout">
-    <div class="photo-frame">
-      <div class="photo-frame-text">фото<br>появится<br>здесь</div>
-    </div>
-    <div class="story-content" style="text-align: left;">
-      <p>Здесь будет ваша история. <em>Как вы встретились</em>, что стало решающим моментом, когда поняли — это навсегда.</p>
-      <p>Можно добавить любые детали: первое свидание, общие путешествия, момент предложения.</p>
-    </div>
+  <div class="story-content" style="text-align: center;">
+    <p>с радостью и трепетом приглашаем разделить с нами день, когда мы скажем друг другу <em>«да»</em></p>
   </div>
 
   <div class="story-quote" style="text-align: center;">и они жили долго и счастливо…</div>
@@ -632,27 +644,43 @@ body {
 
     <div class="timeline">
       <div class="tl-item">
-        <div class="tl-time">14:00</div>
+        <div class="tl-time">14:40</div>
         <div class="tl-marker"><div class="tl-dot"></div></div>
         <div class="tl-content">
-          <h3>Сбор гостей</h3>
-          <p>Welcome-зона и приветственный бокал</p>
+          <h3>ЗАГС</h3>
+          <p>Официальная регистрация</p>
         </div>
       </div>
       <div class="tl-item">
-        <div class="tl-time">15:00</div>
+        <div class="tl-time">15:30</div>
         <div class="tl-marker"><div class="tl-dot"></div></div>
         <div class="tl-content">
-          <h3>Церемония</h3>
-          <p>Торжественная регистрация</p>
+          <h3>Welcome-фуршет</h3>
+          <p>Открытие бара, живой саксофон</p>
         </div>
       </div>
       <div class="tl-item">
         <div class="tl-time">16:00</div>
         <div class="tl-marker"><div class="tl-dot"></div></div>
         <div class="tl-content">
-          <h3>Фотосессия</h3>
-          <p>Время для воспоминаний и поздравлений</p>
+          <h3>Сбор гостей</h3>
+          <p>Приезд на площадку</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">16:00</div>
+        <div class="tl-marker"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <h3>Выездная регистрация</h3>
+          <p>Самая красивая часть дня</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">16:30</div>
+        <div class="tl-marker"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <h3>Фотосессия и поздравления</h3>
+          <p>Время для воспоминаний</p>
         </div>
       </div>
       <div class="tl-item">
@@ -664,11 +692,27 @@ body {
         </div>
       </div>
       <div class="tl-item">
-        <div class="tl-time">20:00</div>
+        <div class="tl-time">21:00</div>
         <div class="tl-marker"><div class="tl-dot"></div></div>
         <div class="tl-content">
-          <h3>Танцы</h3>
-          <p>Первый танец молодожёнов и продолжение праздника</p>
+          <h3>Свадебный торт</h3>
+          <p>Сладкий момент</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">21:30</div>
+        <div class="tl-marker"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <h3>Пирофонтаны</h3>
+          <p>Праздничный салют</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">22:00</div>
+        <div class="tl-marker"><div class="tl-dot"></div></div>
+        <div class="tl-content">
+          <h3>Дискотека</h3>
+          <p>Танцы до 23:00</p>
         </div>
       </div>
     </div>
@@ -686,9 +730,9 @@ body {
   </div>
 
   <div class="venue-card">
-    <div class="venue-name">Название заведения</div>
-    <div class="venue-addr">город, улица, дом</div>
-    <a href="#" class="venue-btn" onclick="alert('Ссылка на карту будет добавлена позже')">открыть на карте</a>
+    <div class="venue-name">Загородный комплекс «Петушки»</div>
+    <div class="venue-addr">просим прибыть к 16:00</div>
+    <a href="https://yandex.ru/maps/-/CPS9AXIm" target="_blank" rel="noopener" class="venue-btn">открыть на карте</a>
   </div>
 </section>
 
@@ -706,23 +750,28 @@ body {
     <div class="dress-grid">
       <div class="dress-swatch">
         <div class="dress-color" style="background: #6b2330;"></div>
-        <div class="dress-name">Бордо</div>
+        <div class="dress-name">Burgundy</div>
         <div class="dress-hex">#6B2330</div>
       </div>
       <div class="dress-swatch">
+        <div class="dress-color" style="background: #6b7a2f;"></div>
+        <div class="dress-name">Olive</div>
+        <div class="dress-hex">#6B7A2F</div>
+      </div>
+      <div class="dress-swatch">
         <div class="dress-color" style="background: #d4a5a5;"></div>
-        <div class="dress-name">Пыльная роза</div>
+        <div class="dress-name">Dusty Rose</div>
         <div class="dress-hex">#D4A5A5</div>
       </div>
       <div class="dress-swatch">
-        <div class="dress-color" style="background: #c9a961;"></div>
-        <div class="dress-name">Шампань</div>
-        <div class="dress-hex">#C9A961</div>
+        <div class="dress-color" style="background: #5a3a2e;"></div>
+        <div class="dress-name">Chocolate</div>
+        <div class="dress-hex">#5A3A2E</div>
       </div>
       <div class="dress-swatch">
-        <div class="dress-color" style="background: #f5ede1;"></div>
-        <div class="dress-name">Слоновая кость</div>
-        <div class="dress-hex">#F5EDE1</div>
+        <div class="dress-color" style="background: #f2ede0;"></div>
+        <div class="dress-name">Ivory</div>
+        <div class="dress-hex">#F2EDE0</div>
       </div>
     </div>
     <div class="dress-note">просим воздержаться от белого — этот цвет&nbsp;только для невесты</div>
@@ -761,67 +810,6 @@ body {
   </div>
 </section>
 
-<!-- ГАЛЕРЕЯ -->
-<section class="section reveal" style="background: var(--ivory); margin: 0; max-width: none; padding-left: 1.5rem; padding-right: 1.5rem;">
-  <div style="max-width: 900px; margin: 0 auto;">
-    <div class="section-eyebrow">наши моменты</div>
-    <h2 class="section-title">Галерея</h2>
-    <div class="section-divider">
-      <div class="section-divider-line"></div>
-      <span class="section-divider-icon">✦</span>
-      <div class="section-divider-line"></div>
-    </div>
-
-    <div class="gallery-grid">
-      <div class="gallery-item">
-        <svg class="gallery-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
-          <rect x="4" y="6" width="24" height="20" rx="1"/>
-          <circle cx="16" cy="16" r="5"/>
-          <circle cx="22" cy="11" r="1" fill="currentColor"/>
-        </svg>
-      </div>
-      <div class="gallery-item">
-        <svg class="gallery-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
-          <rect x="4" y="6" width="24" height="20" rx="1"/>
-          <circle cx="16" cy="16" r="5"/>
-          <circle cx="22" cy="11" r="1" fill="currentColor"/>
-        </svg>
-      </div>
-      <div class="gallery-item">
-        <svg class="gallery-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
-          <rect x="4" y="6" width="24" height="20" rx="1"/>
-          <circle cx="16" cy="16" r="5"/>
-          <circle cx="22" cy="11" r="1" fill="currentColor"/>
-        </svg>
-      </div>
-      <div class="gallery-item">
-        <svg class="gallery-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
-          <rect x="4" y="6" width="24" height="20" rx="1"/>
-          <circle cx="16" cy="16" r="5"/>
-          <circle cx="22" cy="11" r="1" fill="currentColor"/>
-        </svg>
-      </div>
-      <div class="gallery-item">
-        <svg class="gallery-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
-          <rect x="4" y="6" width="24" height="20" rx="1"/>
-          <circle cx="16" cy="16" r="5"/>
-          <circle cx="22" cy="11" r="1" fill="currentColor"/>
-        </svg>
-      </div>
-      <div class="gallery-item">
-        <svg class="gallery-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1">
-          <rect x="4" y="6" width="24" height="20" rx="1"/>
-          <circle cx="16" cy="16" r="5"/>
-          <circle cx="22" cy="11" r="1" fill="currentColor"/>
-        </svg>
-      </div>
-    </div>
-    <div style="text-align: center; margin-top: 2rem; font-family: var(--serif-soft); font-style: italic; color: var(--muted); font-size: 15px;">
-      фотографии скоро появятся
-    </div>
-  </div>
-</section>
-
 <!-- RSVP -->
 <section class="rsvp-section reveal">
   <div style="max-width: 900px; margin: 0 auto;">
@@ -837,34 +825,19 @@ body {
       пожалуйста, подтвердите участие до <strong style="color: var(--gold);">15 июля 2026</strong>
     </p>
 
-    <form class="rsvp-form" id="rsvp-form" onsubmit="event.preventDefault(); submitRsvp();">
-      <input type="text" class="rsvp-input" placeholder="Ваше имя и фамилия" required>
-      <input type="text" class="rsvp-input" placeholder="Телефон или email">
-
-      <div class="rsvp-radio-group">
-        <label class="rsvp-radio">
-          <input type="radio" name="attend" value="yes" checked>
-          <span class="rsvp-radio-label">с радостью буду</span>
-        </label>
-        <label class="rsvp-radio">
-          <input type="radio" name="attend" value="no">
-          <span class="rsvp-radio-label">не смогу прийти</span>
-        </label>
-      </div>
-
-      <select class="rsvp-input rsvp-select">
-        <option value="1">приду один(одна)</option>
-        <option value="2">буду с парой</option>
-        <option value="3">приду с детьми</option>
-      </select>
-
-      <input type="text" class="rsvp-input" placeholder="особые пожелания по меню (например, вегетарианское)">
-
-      <button type="submit" class="rsvp-btn">подтвердить</button>
-    </form>
-
-    <div class="rsvp-success" id="rsvp-success">
-      ✦ Спасибо! Мы вас ждём ✦
+    <!-- Встроенная Google Form. Ответы автоматически идут в таблицу "Свадьба Андрея и Марии (Ответы)" -->
+    <div class="rsvp-iframe-wrap">
+      <iframe
+        src="https://docs.google.com/forms/d/e/1FAIpQLSchcGmqwCK7btXHYwVAOc5RTQFzdqoqw9n85rGwrJkwjdOgZQ/viewform?embedded=true"
+        width="100%"
+        height="1094"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        title="Подтверждение участия"
+        loading="lazy">
+        Загрузка формы…
+      </iframe>
     </div>
   </div>
 </section>
@@ -942,25 +915,6 @@ var observer = new IntersectionObserver(function(entries) {
 document.querySelectorAll('.reveal').forEach(function(el) {
   observer.observe(el);
 });
-
-// ===== RSVP =====
-function submitRsvp() {
-  document.getElementById('rsvp-form').style.display = 'none';
-  document.getElementById('rsvp-success').style.display = 'block';
-  // TODO: позже подключим Google Forms или Telegram-бота
-}
-
-// ===== АДАПТИВ ИСТОРИИ =====
-function checkLayout() {
-  var sl = document.querySelector('.story-layout');
-  if (sl && window.innerWidth < 700) {
-    sl.style.gridTemplateColumns = '1fr';
-  } else if (sl) {
-    sl.style.gridTemplateColumns = '1fr 1fr';
-  }
-}
-checkLayout();
-window.addEventListener('resize', checkLayout);
 </script>
 
 </body>
