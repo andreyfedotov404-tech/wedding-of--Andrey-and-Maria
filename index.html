@@ -191,13 +191,13 @@ body {
   .hero-rose-left, .hero-rose-right { width: 100px; height: 100px; opacity: 0.3 !important; }
 }
 
-/* ===== СЕКЦИЯ ПРОГРАММА — фон с фото ===== */
+/* ===== СЕКЦИЯ ПРОГРАММА — кинематографичный фон ===== */
 .program-section {
-  background: var(--ivory);
   margin: 0; max-width: none;
-  padding-left: 1.5rem; padding-right: 1.5rem;
+  padding: 8rem 1.5rem;
   position: relative;
   overflow: hidden;
+  background: var(--burgundy-deep);
 }
 .program-bg {
   position: absolute; inset: 0;
@@ -205,21 +205,51 @@ body {
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  filter: blur(2px) saturate(0.7);
-  transform: scale(1.05);
+  filter: saturate(0.5) brightness(0.45);
   z-index: 0;
 }
 .program-overlay {
   position: absolute; inset: 0;
   background:
     linear-gradient(180deg,
-      rgba(245,237,225,0.96) 0%,
-      rgba(245,237,225,0.88) 50%,
-      rgba(245,237,225,0.96) 100%);
+      rgba(74,23,34,0.85) 0%,
+      rgba(42,26,31,0.75) 50%,
+      rgba(74,23,34,0.85) 100%);
   z-index: 1;
+}
+.program-section .section-title {
+  color: var(--cream);
+}
+.program-section .section-eyebrow {
+  color: var(--gold);
+}
+.program-section .tl-time {
+  color: var(--gold);
+  font-style: italic;
+}
+.program-section .tl-content h3 {
+  color: var(--cream);
+  font-weight: 400;
+}
+.program-section .tl-content p {
+  color: var(--ivory-dark);
+  opacity: 0.85;
+}
+.program-section .tl-item {
+  border-bottom-color: rgba(201,169,97,0.3);
+}
+.program-section .tl-dot {
+  background: var(--gold);
+}
+.program-section .section-divider-line {
+  background: var(--gold);
+}
+.program-section .section-divider-icon {
+  color: var(--gold);
 }
 @media (max-width: 768px) {
   .program-bg { background-attachment: scroll; }
+  .program-section { padding: 5rem 1.5rem; }
 }
 
 /* ===== ОБЩАЯ СЕКЦИЯ ===== */
@@ -295,64 +325,68 @@ body {
   max-width: 380px; margin: 0 auto;
 }
 
-/* ===== ОВАЛЬНОЕ ФОТО ПАРЫ (новое) ===== */
-.couple-photo-wrap {
+/* ===== РЕДАКТОРСКОЕ ФОТО ПАРЫ (editorial) ===== */
+.editorial-photo {
   position: relative;
-  max-width: 480px;
+  max-width: 560px;
   margin: 0 auto;
-  padding: 20px;
+  /* Соотношение сторон сохранится из самой картинки */
 }
-.couple-photo-wrap::before {
-  /* Внешняя золотая рамка */
-  content: ''; position: absolute; inset: 0;
-  border: 0.5px solid var(--gold);
-  border-radius: 50%;
-  opacity: 0.5;
-  animation: rotateSlow 60s linear infinite;
-}
-.couple-photo-wrap::after {
-  /* Декоративные точки на рамке */
-  content: '✦';
-  position: absolute; top: -12px; left: 50%;
-  transform: translateX(-50%);
-  color: var(--gold); font-size: 20px;
-  background: var(--cream); padding: 0 12px;
-}
-.couple-photo {
-  width: 100%; aspect-ratio: 3/4;
-  border-radius: 50%;
-  overflow: hidden;
+.editorial-photo-img {
   position: relative;
-  border: 1px solid var(--gold);
-  box-shadow:
-    0 0 0 8px var(--cream),
-    0 0 0 9px var(--gold-light),
-    0 30px 80px rgba(74,23,34,0.25);
-}
-.couple-photo img {
-  width: 100%; height: 100%;
-  object-fit: cover;
   display: block;
-  transition: transform 1.5s ease;
+  width: 100%;
+  height: auto;
+  border-radius: 2px;
+  box-shadow:
+    0 1px 0 rgba(201,169,97,0.5),
+    0 30px 60px -20px rgba(74,23,34,0.3),
+    0 18px 36px -18px rgba(0,0,0,0.25);
+  transition: transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.couple-photo-wrap:hover .couple-photo img {
-  transform: scale(1.05);
-}
-.couple-photo::after {
-  /* Виньетка по краям */
-  content: ''; position: absolute; inset: 0;
-  border-radius: 50%;
-  box-shadow: inset 0 0 60px 10px rgba(74,23,34,0.25);
-  pointer-events: none;
-}
-@keyframes rotateSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.editorial-photo:hover .editorial-photo-img {
+  transform: scale(1.02);
 }
 
-/* Параллакс-эффект на главном фото */
-.couple-photo-wrap.parallax {
-  transition: opacity 0.6s ease, transform 0.6s ease;
+/* Декоративные тонкие линии вокруг фото */
+.editorial-photo::before,
+.editorial-photo::after {
+  content: '';
+  position: absolute;
+  width: 1px; height: 60px;
+  background: var(--gold);
+  opacity: 0.6;
+}
+.editorial-photo::before { top: -80px; left: 50%; }
+.editorial-photo::after { bottom: -80px; left: 50%; }
+
+/* Декоративные подписи слева/справа */
+.editorial-caption {
+  position: absolute;
+  font-family: var(--serif-soft);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--gold);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.editorial-caption.left {
+  top: 50%;
+  left: -40px;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: center;
+}
+.editorial-caption.right {
+  top: 50%;
+  right: -40px;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: center;
+}
+@media (max-width: 700px) {
+  .editorial-caption { display: none; }
+  .editorial-photo::before { top: -50px; height: 40px; }
+  .editorial-photo::after { bottom: -50px; height: 40px; }
 }
 .photo-frame::before {
   content: ''; position: absolute; inset: 8px;
@@ -706,14 +740,14 @@ body {
 </section>
 
 <!-- ПРИГЛАШЕНИЕ С ФОТО -->
-<section class="section reveal">
+<section class="section reveal" style="padding-top: 8rem; padding-bottom: 8rem;">
   <div class="section-eyebrow">мы — Андрей и Мария</div>
 
-  <div style="display: flex; justify-content: center; margin: 2rem 0 3rem;">
-    <div class="couple-photo-wrap" id="couple-photo">
-      <div class="couple-photo">
-        <img src="photo-main.jpg" alt="Андрей и Мария">
-      </div>
+  <div style="display: flex; justify-content: center; margin: 3rem 0 4rem;">
+    <div class="editorial-photo" id="couple-photo">
+      <span class="editorial-caption left">save the date</span>
+      <span class="editorial-caption right">22 · 08 · 2026</span>
+      <img class="editorial-photo-img" src="photo-main.jpg" alt="Андрей и Мария">
     </div>
   </div>
 
@@ -1011,24 +1045,19 @@ document.querySelectorAll('.reveal').forEach(function(el) {
   observer.observe(el);
 });
 
-// ===== ПАРАЛЛАКС НА ГЛАВНОМ ФОТО =====
+// ===== ПЛАВНОЕ ПОЯВЛЕНИЕ ГЛАВНОГО ФОТО =====
 var couplePhoto = document.getElementById('couple-photo');
 if (couplePhoto) {
   window.addEventListener('scroll', function() {
     var rect = couplePhoto.getBoundingClientRect();
     var windowH = window.innerHeight;
-    // Центр фото относительно центра экрана
     var photoCenter = rect.top + rect.height / 2;
     var screenCenter = windowH / 2;
     var distance = Math.abs(photoCenter - screenCenter);
-    var maxDist = windowH / 1.5;
-    // Чем дальше от центра — тем больше прозрачность и смещение
+    var maxDist = windowH;
     var ratio = Math.min(distance / maxDist, 1);
-    var opacity = 1 - ratio * 0.7;
-    var translateY = (photoCenter - screenCenter) * 0.08;
-    var scale = 1 - ratio * 0.05;
-    couplePhoto.style.opacity = opacity;
-    couplePhoto.style.transform = 'translateY(' + (-translateY) + 'px) scale(' + scale + ')';
+    // Только прозрачность — без масштаба и смещения
+    couplePhoto.style.opacity = 1 - ratio * 0.4;
   }, { passive: true });
 }
 </script>
