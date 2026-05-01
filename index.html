@@ -191,6 +191,37 @@ body {
   .hero-rose-left, .hero-rose-right { width: 100px; height: 100px; opacity: 0.3 !important; }
 }
 
+/* ===== СЕКЦИЯ ПРОГРАММА — фон с фото ===== */
+.program-section {
+  background: var(--ivory);
+  margin: 0; max-width: none;
+  padding-left: 1.5rem; padding-right: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.program-bg {
+  position: absolute; inset: 0;
+  background-image: url('photo-hero.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  filter: blur(2px) saturate(0.7);
+  transform: scale(1.05);
+  z-index: 0;
+}
+.program-overlay {
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg,
+      rgba(245,237,225,0.96) 0%,
+      rgba(245,237,225,0.88) 50%,
+      rgba(245,237,225,0.96) 100%);
+  z-index: 1;
+}
+@media (max-width: 768px) {
+  .program-bg { background-attachment: scroll; }
+}
+
 /* ===== ОБЩАЯ СЕКЦИЯ ===== */
 .section {
   padding: 6rem 1.5rem; position: relative; z-index: 2;
@@ -254,7 +285,7 @@ body {
   color: var(--gold); margin: 2rem 0; line-height: 1.2;
 }
 
-/* ===== ФОТО ПЛЕЙСХОЛДЕР ===== */
+/* ===== ФОТО ПЛЕЙСХОЛДЕР (старый) ===== */
 .photo-frame {
   width: 100%; aspect-ratio: 3/4;
   background: var(--ivory-dark);
@@ -262,6 +293,66 @@ body {
   display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden;
   max-width: 380px; margin: 0 auto;
+}
+
+/* ===== ОВАЛЬНОЕ ФОТО ПАРЫ (новое) ===== */
+.couple-photo-wrap {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.couple-photo-wrap::before {
+  /* Внешняя золотая рамка */
+  content: ''; position: absolute; inset: 0;
+  border: 0.5px solid var(--gold);
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: rotateSlow 60s linear infinite;
+}
+.couple-photo-wrap::after {
+  /* Декоративные точки на рамке */
+  content: '✦';
+  position: absolute; top: -12px; left: 50%;
+  transform: translateX(-50%);
+  color: var(--gold); font-size: 20px;
+  background: var(--cream); padding: 0 12px;
+}
+.couple-photo {
+  width: 100%; aspect-ratio: 3/4;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--gold);
+  box-shadow:
+    0 0 0 8px var(--cream),
+    0 0 0 9px var(--gold-light),
+    0 30px 80px rgba(74,23,34,0.25);
+}
+.couple-photo img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.5s ease;
+}
+.couple-photo-wrap:hover .couple-photo img {
+  transform: scale(1.05);
+}
+.couple-photo::after {
+  /* Виньетка по краям */
+  content: ''; position: absolute; inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 60px 10px rgba(74,23,34,0.25);
+  pointer-events: none;
+}
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Параллакс-эффект на главном фото */
+.couple-photo-wrap.parallax {
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 .photo-frame::before {
   content: ''; position: absolute; inset: 8px;
@@ -616,11 +707,13 @@ body {
 
 <!-- ПРИГЛАШЕНИЕ С ФОТО -->
 <section class="section reveal">
-  <div class="section-eyebrow">мы — Андрей и Мария</section>
+  <div class="section-eyebrow">мы — Андрей и Мария</div>
 
   <div style="display: flex; justify-content: center; margin: 2rem 0 3rem;">
-    <div class="photo-frame" style="aspect-ratio: 4/3; max-width: 520px;">
-      <img src="photo-main.jpg" alt="Андрей и Мария" style="width: 100%; height: 100%; object-fit: cover; position: relative; z-index: 0;">
+    <div class="couple-photo-wrap" id="couple-photo">
+      <div class="couple-photo">
+        <img src="photo-main.jpg" alt="Андрей и Мария">
+      </div>
     </div>
   </div>
 
@@ -632,8 +725,10 @@ body {
 </section>
 
 <!-- ПРОГРАММА ДНЯ -->
-<section class="section reveal" style="background: var(--ivory); margin: 0; max-width: none; padding-left: 1.5rem; padding-right: 1.5rem;">
-  <div style="max-width: 900px; margin: 0 auto;">
+<section class="section reveal program-section">
+  <div class="program-bg" id="program-bg"></div>
+  <div class="program-overlay"></div>
+  <div style="max-width: 900px; margin: 0 auto; position: relative; z-index: 2;">
     <div class="section-eyebrow">расписание торжества</div>
     <h2 class="section-title">Программа дня</h2>
     <div class="section-divider">
@@ -915,6 +1010,27 @@ var observer = new IntersectionObserver(function(entries) {
 document.querySelectorAll('.reveal').forEach(function(el) {
   observer.observe(el);
 });
+
+// ===== ПАРАЛЛАКС НА ГЛАВНОМ ФОТО =====
+var couplePhoto = document.getElementById('couple-photo');
+if (couplePhoto) {
+  window.addEventListener('scroll', function() {
+    var rect = couplePhoto.getBoundingClientRect();
+    var windowH = window.innerHeight;
+    // Центр фото относительно центра экрана
+    var photoCenter = rect.top + rect.height / 2;
+    var screenCenter = windowH / 2;
+    var distance = Math.abs(photoCenter - screenCenter);
+    var maxDist = windowH / 1.5;
+    // Чем дальше от центра — тем больше прозрачность и смещение
+    var ratio = Math.min(distance / maxDist, 1);
+    var opacity = 1 - ratio * 0.7;
+    var translateY = (photoCenter - screenCenter) * 0.08;
+    var scale = 1 - ratio * 0.05;
+    couplePhoto.style.opacity = opacity;
+    couplePhoto.style.transform = 'translateY(' + (-translateY) + 'px) scale(' + scale + ')';
+  }, { passive: true });
+}
 </script>
 
 </body>
