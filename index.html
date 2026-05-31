@@ -27,34 +27,34 @@
      Свежая, нежная, светлая гамма. Имена сохранены для совместимости,
      но значения теперь «зелёно-розово-шампанские», а не бордовые. */
 
-  /* Основной тёмный (заголовки, акцентный текст) — графит-зелёный */
-  --burgundy: #3f4a38;
-  --burgundy-deep: #2f3829;   /* тёмная секция (программа) */
-  --burgundy-light: #6f7d5c;  /* средний шалфей */
+  /* Основной тёмный (заголовки, акцентный текст) — вишнёво-бордовый */
+  --burgundy: #6e1f33;        /* благородный вишнёвый */
+  --burgundy-deep: #4a1622;   /* тёмная секция (программа/RSVP) */
+  --burgundy-light: #8c3a4c;  /* средний винный */
 
   /* Фоны — тёплая слоновая кость */
-  --cream: #f7f2ea;           /* основной фон */
-  --ivory: #efe9dc;           /* светлая секция */
-  --ivory-dark: #e6ddc9;      /* заполнения/рамки */
+  --cream: #f8f1ea;           /* основной фон */
+  --ivory: #f0e7dd;           /* светлая секция */
+  --ivory-dark: #e6d8c8;      /* заполнения/рамки */
 
-  /* Шампань (акценты, линии, золотистые детали) */
-  --gold: #b89a5e;            /* чуть глубже для контраста на светлом */
-  --gold-light: #d3bd91;
+  /* Шампань-золото (акценты, линии, детали) — благородно с бордо */
+  --gold: #b8945a;
+  --gold-light: #d8c08e;
 
   /* Нежные акценты */
-  --rose: #d4a5a5;            /* dusty rose */
-  --rose-soft: #e4c4c4;
-  --sage: #97a87c;            /* шалфей — основной свежий акцент */
-  --sage-deep: #6f7d5c;
+  --rose: #c98a96;            /* пыльно-вишнёвая роза */
+  --rose-soft: #e3bcc2;
+  --sage: #9c4452;            /* акцент-кнопки: розовое дерево */
+  --sage-deep: #6e1f33;       /* глубокий вишнёвый акцент */
 
   /* Текст */
-  --ink: #353b2e;            /* основной текст — глубокий тёплый графит-зелёный */
-  --muted: #76796a;          /* приглушённый шалфейно-серый (читаемее старого) */
+  --ink: #3a1c22;            /* основной текст — тёмный бордово-коричневый */
+  --muted: #8a6d70;          /* приглушённый мов-серый */
 
-  /* Графитово-серые «эскизные» тона (ботаника, текстура) */
+  /* Зелень оставляем для ботаники (эвкалипт) — классика с бордо */
   --graphite: #5d6358;
   --graphite-soft: #8a9183;
-  --ink-green: #243029;       /* глубокая зелень секций (как на референсе) */
+  --ink-green: #3a1320;       /* перекрашен: глубокий вишнёвый для имён/заголовков */
 
   --serif: 'Playfair Display', Georgia, serif;
   --serif-soft: 'Cormorant Garamond', Georgia, serif;
@@ -119,11 +119,11 @@ body {
   color: var(--burgundy); letter-spacing: 4px;
   animation: fadeInOut 2s ease-in-out infinite;
 }
-/* Загрузочная каллиграфия — имя пишется от руки */
+/* Загрузочный экран — имя проявляется письмом (Playfair, спокойно) */
 .preloader-names {
-  font-family: var(--calligraphy); color: var(--ink-green);
-  font-size: clamp(48px, 13vw, 92px); line-height: 0.84;
-  display: flex; flex-direction: column; align-items: center; gap: 0.02em;
+  font-family: var(--serif); color: var(--burgundy); font-weight: 400;
+  font-size: clamp(42px, 10.5vw, 82px); line-height: 0.98; letter-spacing: -0.5px;
+  display: flex; flex-direction: column; align-items: center; gap: 0.04em;
 }
 .pl-name {
   display: inline-block;
@@ -132,8 +132,8 @@ body {
 }
 .pl-name.pl-second { animation-delay: 1.5s; }
 .pl-amp {
-  font-family: var(--calligraphy); color: var(--gold);
-  font-size: 0.62em; line-height: 0.5; margin: -0.06em 0;
+  font-family: var(--script); color: var(--gold);
+  font-size: 0.85em; line-height: 0.5; margin: -0.08em 0;
   opacity: 0; animation: fadeIn 0.8s ease 1.25s forwards;
 }
 .preloader-line {
@@ -165,7 +165,7 @@ body {
   border-radius: 100% 0 100% 0;
   box-shadow: inset 0 0 4px rgba(0,0,0,0.05);
 }
-.petal.sage::before { background: radial-gradient(ellipse 60% 100% at 50% 0%, #c0cda8, var(--sage) 75%); }
+.petal.sage::before { background: radial-gradient(ellipse 60% 100% at 50% 0%, #e3bcc2, var(--burgundy-light) 75%); }
 .petal.gold::before { background: radial-gradient(ellipse 60% 100% at 50% 0%, #e8d6ad, var(--gold-light) 75%); }
 /* Дальний слой — мельче, размытее, для ощущения глубины */
 .petal.far { filter: blur(1.2px); opacity: 0; }
@@ -183,7 +183,7 @@ body {
   position: relative; padding: 2rem 1.5rem;
   background:
     radial-gradient(ellipse at top, rgba(212,165,165,0.12), transparent 60%),
-    radial-gradient(ellipse at bottom, rgba(151,168,124,0.10), transparent 60%);
+    radial-gradient(ellipse at bottom, rgba(150,55,75,0.10), transparent 60%);
 }
 .hero-frame {
   text-align: center; position: relative; z-index: 2;
@@ -202,11 +202,11 @@ body {
   opacity: 0; animation: heroFadeIn 1.5s ease 0.3s forwards;
 }
 .hero-names {
-  font-family: var(--calligraphy); font-weight: 400;
-  font-size: clamp(72px, 16vw, 168px); line-height: 0.82;
-  color: var(--ink-green); margin: 0.6rem 0 1rem;
-  letter-spacing: 0;
-  display: flex; flex-direction: column; align-items: center; gap: 0.02em;
+  font-family: var(--serif); font-weight: 400;
+  font-size: clamp(58px, 12.5vw, 140px); line-height: 0.96;
+  color: var(--burgundy); margin: 0.8rem 0 1rem;
+  letter-spacing: -1px;
+  display: flex; flex-direction: column; align-items: center; gap: 0.03em;
 }
 /* Эффект «пишется от руки» — каллиграфия проявляется слева направо */
 .hero-name {
@@ -220,11 +220,11 @@ body {
   to { clip-path: inset(-12% -6% -22% -4%); }
 }
 .hero-amp {
-  font-family: var(--calligraphy); font-style: normal;
-  color: var(--gold); font-size: 0.66em; line-height: 0.5;
+  font-family: var(--script); font-style: normal;
+  color: var(--gold); font-size: 0.85em; line-height: 0.5;
   font-weight: 400; opacity: 0;
   animation: ampScale 1.1s ease 1.7s forwards;
-  display: inline-block; margin: -0.05em 0;
+  display: inline-block; margin: -0.08em 0;
 }
 .hero-date {
   font-family: var(--serif); font-size: clamp(22px, 3.5vw, 32px);
@@ -302,10 +302,10 @@ body {
 .program-overlay {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(120,135,98,0.35), transparent 60%),
+    radial-gradient(ellipse at 50% 0%, rgba(150,55,75,0.32), transparent 60%),
     linear-gradient(165deg,
       var(--burgundy-deep) 0%,
-      #3a4434 45%,
+      #5a1f2c 45%,
       var(--burgundy-deep) 100%);
   z-index: 1;
 }
@@ -352,28 +352,12 @@ body {
 
 /* ===== СЛЕДЫ ПРИ СКРОЛЛЕ — крупные шаги по синусоиде вниз по странице ===== */
 .footsteps {
-  position: absolute; top: 0; left: 0; width: 100%;
+  position: absolute; top: 0; left: 0;
   z-index: 0; pointer-events: none; overflow: hidden;
+  color: var(--gold);
 }
-.footstep {
-  position: absolute;
-  width: 46px; height: 88px;
-  margin-left: -23px; margin-top: -44px;   /* центрируем отпечаток по точке пути */
-  opacity: 0;
-  transform: translateY(18px) scale(0.8) rotate(var(--rot, 0deg));
-  transition: opacity 1s ease, transform 1s cubic-bezier(0.2,0.8,0.2,1);
-  color: var(--sage-deep);
-  will-change: transform, opacity;
-}
-.footstep svg { width: 100%; height: 100%; display: block;
-  filter: drop-shadow(0 2px 3px rgba(60,72,46,0.18)); }
-.footstep.step-visible {
-  opacity: var(--foot-opacity, 0.42);
-  transform: translateY(0) scale(1) rotate(var(--rot, 0deg));
-}
-@media (max-width: 600px) {
-  .footstep { width: 34px; height: 64px; margin-left: -17px; margin-top: -32px; }
-}
+.footsteps svg { display: block; }
+.footsteps path { opacity: 0.5; }
 
 /* ===== СТЫКИ СЕКЦИЙ — органичный рваный край бумаги (SVG-турбулентность) ===== */
 .program-section::before {
@@ -444,7 +428,7 @@ body {
 .envelope:hover { transform: translateY(-4px); }
 @keyframes envelopeBreathe {
   0%, 100% { filter: drop-shadow(0 18px 36px rgba(20,26,16,0.45)); }
-  50%      { filter: drop-shadow(0 24px 50px rgba(151,168,124,0.4)); transform: scale(1.018); }
+  50%      { filter: drop-shadow(0 24px 50px rgba(150,55,75,0.4)); transform: scale(1.018); }
 }
 
 /* Корпус конверта — бумага */
@@ -501,7 +485,7 @@ body {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   width: 74px; height: 74px; border-radius: 50%; z-index: 5;
-  background: radial-gradient(circle at 38% 34%, #b0b994, var(--sage) 55%, #7d8c62 100%);
+  background: radial-gradient(circle at 38% 34%, #a84b5d, #6e1f33 55%, #4a1622 100%);
   box-shadow:
     0 4px 10px rgba(60,72,46,0.45),
     inset 0 2px 6px rgba(255,255,255,0.25),
@@ -852,7 +836,7 @@ body {
 .venue-btn:hover {
   color: var(--cream); border-color: var(--sage-deep);
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px -10px rgba(111,125,92,0.6);
+  box-shadow: 0 10px 24px -10px rgba(140,58,76,0.6);
 }
 .venue-btn:hover::before { transform: translateY(0); }
 
@@ -865,13 +849,13 @@ body {
   color: #fbf8f1; font-family: var(--sans); font-size: 13px; font-weight: 600;
   letter-spacing: 3px; text-transform: uppercase; text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 12px 30px -10px rgba(111,125,92,0.7);
+  box-shadow: 0 12px 30px -10px rgba(140,58,76,0.7);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   animation: btnGlow 3.6s ease-in-out infinite;
 }
 @keyframes btnGlow {
-  0%, 100% { box-shadow: 0 12px 30px -10px rgba(111,125,92,0.55); }
-  50%      { box-shadow: 0 14px 38px -8px rgba(151,168,124,0.75); }
+  0%, 100% { box-shadow: 0 12px 30px -10px rgba(140,58,76,0.55); }
+  50%      { box-shadow: 0 14px 38px -8px rgba(150,55,75,0.75); }
 }
 .btn-primary:hover { transform: translateY(-3px); }
 /* Блик, пробегающий по кнопке */
@@ -1029,7 +1013,7 @@ body {
   position: fixed; inset: 0; z-index: 200;
   display: flex; align-items: center; justify-content: center;
   padding: 24px;
-  background: rgba(47,56,41,0.55);
+  background: rgba(58,20,30,0.55);
   backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
   opacity: 0; visibility: hidden;
   transition: opacity 0.4s ease, visibility 0.4s ease;
@@ -1210,13 +1194,13 @@ body {
         </filter>
       </defs>
       <g filter="url(#watercolor)">
-        <ellipse cx="170" cy="150" rx="280" ry="210" fill="#97a87c" fill-opacity="0.24"/>
+        <ellipse cx="170" cy="150" rx="280" ry="210" fill="#8c3a4c" fill-opacity="0.22"/>
         <ellipse cx="880" cy="120" rx="230" ry="190" fill="#d4a5a5" fill-opacity="0.2"/>
         <ellipse cx="110" cy="780" rx="250" ry="230" fill="#d3bd91" fill-opacity="0.2"/>
-        <ellipse cx="910" cy="840" rx="270" ry="230" fill="#6f7d5c" fill-opacity="0.18"/>
+        <ellipse cx="910" cy="840" rx="270" ry="230" fill="#6e1f33" fill-opacity="0.16"/>
         <ellipse cx="520" cy="470" rx="220" ry="180" fill="#c9b88f" fill-opacity="0.12"/>
         <ellipse cx="500" cy="1280" rx="320" ry="240" fill="#d4a5a5" fill-opacity="0.16"/>
-        <ellipse cx="240" cy="1150" rx="210" ry="180" fill="#97a87c" fill-opacity="0.14"/>
+        <ellipse cx="240" cy="1150" rx="210" ry="180" fill="#c98a96" fill-opacity="0.16"/>
       </g>
     </svg>
   </div>
@@ -1522,39 +1506,39 @@ body {
 
     <div class="dress-grid stagger">
       <div class="dress-swatch">
-        <div class="dress-color" style="background: #97a87c;"></div>
-        <div class="dress-name">Sage</div>
-        <div class="dress-hex">#97A87C</div>
+        <div class="dress-color" style="background: #6e1f33;"></div>
+        <div class="dress-name">Burgundy</div>
+        <div class="dress-hex">#6E1F33</div>
       </div>
       <div class="dress-swatch">
-        <div class="dress-color" style="background: #6f7d5c;"></div>
-        <div class="dress-name">Eucalyptus</div>
-        <div class="dress-hex">#6F7D5C</div>
+        <div class="dress-color" style="background: #4a1622;"></div>
+        <div class="dress-name">Wine</div>
+        <div class="dress-hex">#4A1622</div>
       </div>
       <div class="dress-swatch">
-        <div class="dress-color" style="background: #7e8b53;"></div>
-        <div class="dress-name">Olive</div>
-        <div class="dress-hex">#7E8B53</div>
+        <div class="dress-color" style="background: #8c2f44;"></div>
+        <div class="dress-name">Cherry</div>
+        <div class="dress-hex">#8C2F44</div>
       </div>
       <div class="dress-swatch">
-        <div class="dress-color" style="background: #d4a5a5;"></div>
+        <div class="dress-color" style="background: #c98a96;"></div>
         <div class="dress-name">Dusty Rose</div>
-        <div class="dress-hex">#D4A5A5</div>
+        <div class="dress-hex">#C98A96</div>
       </div>
       <div class="dress-swatch">
-        <div class="dress-color" style="background: #a87878;"></div>
+        <div class="dress-color" style="background: #a06b74;"></div>
         <div class="dress-name">Mauve</div>
-        <div class="dress-hex">#A87878</div>
+        <div class="dress-hex">#A06B74</div>
       </div>
       <div class="dress-swatch">
-        <div class="dress-color" style="background: #c9a961;"></div>
+        <div class="dress-color" style="background: #d8c08e;"></div>
         <div class="dress-name">Champagne</div>
-        <div class="dress-hex">#C9A961</div>
+        <div class="dress-hex">#D8C08E</div>
       </div>
       <div class="dress-swatch">
-        <div class="dress-color" style="background: #9c8b79;"></div>
-        <div class="dress-name">Taupe</div>
-        <div class="dress-hex">#9C8B79</div>
+        <div class="dress-color" style="background: #b8945a;"></div>
+        <div class="dress-name">Gold</div>
+        <div class="dress-hex">#B8945A</div>
       </div>
       <div class="dress-swatch">
         <div class="dress-color" style="background: #6e5849;"></div>
@@ -1806,69 +1790,68 @@ var staggerObserver = new IntersectionObserver(function(entries) {
 }, { threshold: 0.18, rootMargin: '0px 0px -60px 0px' });
 document.querySelectorAll('.stagger').forEach(function(el) { staggerObserver.observe(el); });
 
-// ===== СЛЕДЫ ПРИ СКРОЛЛЕ — крупные шаги по синусоиде вниз =====
+// ===== ТРОПИНКА ПРИ СКРОЛЛЕ — пунктирный путь рисуется по левому краю =====
 (function() {
   var layer = document.getElementById('footsteps');
   if (!layer || prefersReducedMotion) return;
 
-  // Аккуратный отпечаток подошвы: гладкий силуэт + отдельная пятка (без «пальцев»)
-  var footSVG = '<svg viewBox="0 0 24 46" fill="currentColor">' +
-    '<path d="M12 1.5 C 5.5 1.5, 4.2 9, 5.2 16 C 6 21.5, 7 24, 7 28 L 7 30.5 C 7 33.5, 17 33.5, 17 30.5 L 17 28 C 17 24, 18 21.5, 18.8 16 C 19.8 9, 18.5 1.5, 12 1.5 Z"/>' +
-    '<ellipse cx="12" cy="40" rx="5.6" ry="5"/></svg>';
-
-  var steps = [];
+  var NS = 'http://www.w3.org/2000/svg';
+  var clipRect = null, docH = 0;
 
   function build() {
     layer.innerHTML = '';
-    steps = [];
-    var docH = document.documentElement.scrollHeight;
-    layer.style.height = docH + 'px';
-
+    docH = document.documentElement.scrollHeight;
     var vw = window.innerWidth, vh = window.innerHeight;
     var mobile = vw <= 600;
-    var startY = vh * 0.95;          // стартуем ниже первого экрана
-    var endY = docH - vh * 0.5;      // заканчиваем перед футером
+    var W = mobile ? 86 : 140;          // ширина левой полосы
+    var cx = mobile ? 44 : 70;          // ось тропинки
+    var amp = mobile ? 20 : 38;         // размах
+    var period = mobile ? 520 : 700;
+    var startY = vh * 0.92;
+    var endY = docH - vh * 0.4;
     if (endY <= startY) return;
 
-    var gap = mobile ? 138 : 178;    // крупнее и реже — шаг по вертикали
-    var amp = mobile ? 26 : 50;      // размах дорожки вдоль левого края
-    var cx = Math.max(58, vw * 0.075); // держимся у левого края страницы
-    var period = mobile ? 520 : 700; // волна пошире — спокойная «походка»
-    var stride = mobile ? 10 : 15;   // разнос ног поперёк пути
-    var footOpacity = mobile ? 0.34 : 0.42;
-    var TWO_PI = Math.PI * 2;
+    layer.style.width = W + 'px';
+    layer.style.height = docH + 'px';
 
-    var idx = 0;
-    for (var y = startY; y <= endY; y += gap) {
-      var x = cx + amp * Math.sin((y / period) * TWO_PI);
-      var xN = cx + amp * Math.sin(((y + gap) / period) * TWO_PI);
-      var dx = xN - x, dy = gap;
-      var len = Math.sqrt(dx * dx + dy * dy) || 1;
-      var rot = Math.atan2(dx, -dy) * 180 / Math.PI;   // носок — по ходу движения
-      var side = (idx % 2 === 0) ? 1 : -1;             // лево/право вокруг линии
-      var px = (-dy / len) * stride * side;
-      var py = (dx / len) * stride * side;
+    var svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + docH);
+    svg.setAttribute('preserveAspectRatio', 'none');
+    svg.setAttribute('width', W); svg.setAttribute('height', docH);
 
-      var f = document.createElement('div');
-      f.className = 'footstep';
-      f.style.left = (x + px) + 'px';
-      f.style.top = (y + py) + 'px';
-      f.style.setProperty('--rot', rot.toFixed(1) + 'deg');
-      f.style.setProperty('--foot-opacity', footOpacity);
-      f.innerHTML = footSVG;
-      layer.appendChild(f);
-      steps.push({ y: y, el: f });
-      idx++;
+    var d = 'M ' + cx.toFixed(1) + ' ' + startY.toFixed(0);
+    for (var y = startY; y <= endY; y += 10) {
+      var x = cx + amp * Math.sin((y / period) * Math.PI * 2);
+      d += ' L ' + x.toFixed(1) + ' ' + y.toFixed(0);
     }
+
+    var defs = document.createElementNS(NS, 'defs');
+    var clip = document.createElementNS(NS, 'clipPath');
+    clip.setAttribute('id', 'footpath-clip');
+    clip.setAttribute('clipPathUnits', 'userSpaceOnUse');
+    clipRect = document.createElementNS(NS, 'rect');
+    clipRect.setAttribute('x', '0'); clipRect.setAttribute('y', '0');
+    clipRect.setAttribute('width', W); clipRect.setAttribute('height', '0');
+    clip.appendChild(clipRect); defs.appendChild(clip); svg.appendChild(defs);
+
+    var path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', 'currentColor');
+    path.setAttribute('stroke-width', mobile ? '2.4' : '2.8');
+    path.setAttribute('stroke-linecap', 'round');
+    path.setAttribute('stroke-dasharray', mobile ? '1 13' : '1 15'); // пунктир-тропинка
+    path.setAttribute('vector-effect', 'non-scaling-stroke');
+    path.setAttribute('clip-path', 'url(#footpath-clip)');
+    svg.appendChild(path);
+    layer.appendChild(svg);
     update();
   }
 
   function update() {
-    var reveal = window.scrollY + window.innerHeight * 0.9;
-    for (var i = 0; i < steps.length; i++) {
-      if (steps[i].y <= reveal) steps[i].el.classList.add('step-visible');
-      else steps[i].el.classList.remove('step-visible');
-    }
+    if (!clipRect) return;
+    var reveal = window.scrollY + window.innerHeight * 0.78; // рисуем чуть впереди взгляда
+    clipRect.setAttribute('height', Math.max(0, reveal).toFixed(0));
   }
 
   var ticking = false;
@@ -1879,7 +1862,6 @@ document.querySelectorAll('.stagger').forEach(function(el) { staggerObserver.obs
   var rt;
   window.addEventListener('resize', function() { clearTimeout(rt); rt = setTimeout(build, 250); });
 
-  // Строим после полной загрузки — картинки и шрифты влияют на высоту страницы
   if (document.readyState === 'complete') setTimeout(build, 300);
   else window.addEventListener('load', function(){ setTimeout(build, 400); });
 })();
@@ -1936,7 +1918,7 @@ document.querySelectorAll('.stagger').forEach(function(el) { staggerObserver.obs
     var rect = anchor.getBoundingClientRect();
     var cx = rect.left + rect.width / 2;
     var cy = rect.top + rect.height / 2;
-    var colors = ['#d4a5a5', '#97a87c', '#d3bd91', '#e4c4c4', '#b89a5e'];
+    var colors = ['#c98a96', '#8c3a4c', '#d8c08e', '#e3bcc2', '#b8945a'];
     var count = (isMobile || lowPower) ? 16 : 26;
     for (var i = 0; i < count; i++) {
       (function(i) {
