@@ -84,6 +84,9 @@ body {
     radial-gradient(90% 60% at 0% 88%, rgba(196,176,150,0.10), transparent 55%),
     var(--cream);
 }
+/* Акварельная подложка — органичные размытые пятна вместо плоского цвета */
+.page-bg__wash { position: absolute; inset: -6%; opacity: 0.85; }
+.page-bg__wash svg { width: 100%; height: 100%; display: block; }
 /* Тонкая зернистость — ощущение настоящей бумаги, а не плоского кода */
 .page-bg__grain {
   position: absolute; inset: 0; opacity: 0.05; mix-blend-mode: multiply;
@@ -115,6 +118,23 @@ body {
   font-family: var(--serif); font-size: 64px; font-weight: 400;
   color: var(--burgundy); letter-spacing: 4px;
   animation: fadeInOut 2s ease-in-out infinite;
+}
+/* Загрузочная каллиграфия — имя пишется от руки */
+.preloader-names {
+  font-family: var(--calligraphy); color: var(--ink-green);
+  font-size: clamp(48px, 13vw, 92px); line-height: 0.84;
+  display: flex; flex-direction: column; align-items: center; gap: 0.02em;
+}
+.pl-name {
+  display: inline-block;
+  clip-path: inset(-12% 100% -24% -5%);
+  animation: writeIn 1.5s cubic-bezier(0.66, 0, 0.32, 1) 0.35s forwards;
+}
+.pl-name.pl-second { animation-delay: 1.5s; }
+.pl-amp {
+  font-family: var(--calligraphy); color: var(--gold);
+  font-size: 0.62em; line-height: 0.5; margin: -0.06em 0;
+  opacity: 0; animation: fadeIn 0.8s ease 1.25s forwards;
 }
 .preloader-line {
   width: 0; height: 1px; background: var(--gold);
@@ -337,21 +357,39 @@ body {
 }
 .footstep {
   position: absolute;
-  width: 38px; height: 50px;
-  margin-left: -19px; margin-top: -25px;   /* центрируем отпечаток по точке пути */
+  width: 54px; height: 72px;
+  margin-left: -27px; margin-top: -36px;   /* центрируем отпечаток по точке пути */
   opacity: 0;
-  transform: translateY(16px) scale(0.8) rotate(var(--rot, 0deg));
+  transform: translateY(18px) scale(0.8) rotate(var(--rot, 0deg));
   transition: opacity 1s ease, transform 1s cubic-bezier(0.2,0.8,0.2,1);
   color: var(--sage-deep);
   will-change: transform, opacity;
 }
-.footstep svg { width: 100%; height: 100%; display: block; }
+.footstep svg { width: 100%; height: 100%; display: block;
+  filter: drop-shadow(0 2px 3px rgba(60,72,46,0.18)); }
 .footstep.step-visible {
-  opacity: var(--foot-opacity, 0.3);
+  opacity: var(--foot-opacity, 0.42);
   transform: translateY(0) scale(1) rotate(var(--rot, 0deg));
 }
 @media (max-width: 600px) {
-  .footstep { width: 28px; height: 38px; margin-left: -14px; margin-top: -19px; }
+  .footstep { width: 40px; height: 54px; margin-left: -20px; margin-top: -27px; }
+}
+
+/* ===== СТЫКИ СЕКЦИЙ (варианты на выбор) ===== */
+/* Вариант A — плавная волна: кремовый «прилив» втекает в зелёную «Программу» */
+.program-section::before {
+  content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 78px; z-index: 2;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 80' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1440,0 L1440,44 C1200,8 960,66 720,34 C480,2 240,54 0,32 Z' fill='%23f7f2ea'/%3E%3C/svg%3E") no-repeat;
+  background-size: 100% 100%;
+}
+/* Вариант B — «рваный лист»: кремовый рваный край втекает в зелёный RSVP */
+.rsvp-section { position: relative; }
+.rsvp-section::before {
+  content: ''; position: absolute; top: -1px; left: 0; right: 0; height: 46px; z-index: 2;
+  pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 48' preserveAspectRatio='none'%3E%3Cpath d='M0,0 L1440,0 L1440,20 L1392,30 L1340,16 L1286,32 L1232,18 L1178,34 L1120,20 L1066,33 L1012,17 L958,31 L900,19 L846,34 L792,18 L738,30 L680,16 L626,32 L572,18 L518,33 L460,19 L406,31 L352,16 L298,30 L240,18 L186,33 L132,19 L78,31 L24,17 L0,28 Z' fill='%23f7f2ea'/%3E%3C/svg%3E") no-repeat;
+  background-size: 100% 100%;
 }
 
 /* ===== КОНВЕРТ С РАСПИСАНИЕМ ===== */
@@ -566,7 +604,7 @@ body {
 .section-divider-icon { color: var(--gold); font-size: 14px; }
 
 /* ===== ОБРАТНЫЙ ОТСЧЁТ ===== */
-.countdown-section { padding: 4rem 1.5rem; background: var(--ivory); }
+.countdown-section { padding: 4rem 1.5rem; background: rgba(238,231,217,0.5); }
 .countdown-grid {
   display: grid; grid-template-columns: repeat(4, 1fr);
   gap: 1rem; max-width: 720px; margin: 0 auto;
@@ -1089,26 +1127,28 @@ body {
 }
 .reveal.visible { opacity: 1; transform: translateY(0) scale(1); }
 
-/* Элементы внутри секции «собираются» по одному: подъём, масштаб и смягчение */
+/* Элементы «выходят из центра» к своим позициям; обратно — собираются к центру */
+.stagger { position: relative; }
 .stagger > * {
   opacity: 0;
-  transform: translateY(34px) scale(0.94);
-  filter: blur(6px);
+  transform: translate(calc(var(--dx, 0px) * -0.42), calc(var(--dy, 0px) * -0.42 + 16px)) scale(0.5);
+  filter: blur(5px);
   transition:
-    opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1),
-    transform 1s cubic-bezier(0.2, 0.8, 0.2, 1),
-    filter 0.9s ease;
+    opacity 0.85s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 0.95s cubic-bezier(0.22, 0.9, 0.24, 1),
+    filter 0.8s ease;
 }
-.stagger.visible > * { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-.stagger.visible > *:nth-child(1) { transition-delay: 0.06s; }
-.stagger.visible > *:nth-child(2) { transition-delay: 0.16s; }
-.stagger.visible > *:nth-child(3) { transition-delay: 0.26s; }
-.stagger.visible > *:nth-child(4) { transition-delay: 0.36s; }
-.stagger.visible > *:nth-child(5) { transition-delay: 0.46s; }
-.stagger.visible > *:nth-child(6) { transition-delay: 0.56s; }
-.stagger.visible > *:nth-child(7) { transition-delay: 0.66s; }
-.stagger.visible > *:nth-child(8) { transition-delay: 0.76s; }
-.stagger.visible > *:nth-child(9) { transition-delay: 0.86s; }
+.stagger.visible > * { opacity: 1; transform: translate(0, 0) scale(1); filter: blur(0); }
+/* Задержки на базовом селекторе — лесенка работает и при появлении, и при исчезании */
+.stagger > *:nth-child(1) { transition-delay: 0.04s; }
+.stagger > *:nth-child(2) { transition-delay: 0.12s; }
+.stagger > *:nth-child(3) { transition-delay: 0.20s; }
+.stagger > *:nth-child(4) { transition-delay: 0.28s; }
+.stagger > *:nth-child(5) { transition-delay: 0.36s; }
+.stagger > *:nth-child(6) { transition-delay: 0.44s; }
+.stagger > *:nth-child(7) { transition-delay: 0.52s; }
+.stagger > *:nth-child(8) { transition-delay: 0.60s; }
+.stagger > *:nth-child(9) { transition-delay: 0.68s; }
 
 /* ===== АДАПТИВ ===== */
 @media (max-width: 600px) {
@@ -1136,6 +1176,26 @@ body {
 
 <!-- Художественный фон: бумага + эскизная ботаника + текстура -->
 <div class="page-bg" aria-hidden="true">
+  <div class="page-bg__wash">
+    <svg viewBox="0 0 1000 1500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="watercolor" x="-30%" y="-30%" width="160%" height="160%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="3" seed="8" result="noise"/>
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="72" xChannelSelector="R" yChannelSelector="G"/>
+          <feGaussianBlur stdDeviation="6"/>
+        </filter>
+      </defs>
+      <g filter="url(#watercolor)">
+        <ellipse cx="170" cy="150" rx="280" ry="210" fill="#97a87c" fill-opacity="0.24"/>
+        <ellipse cx="880" cy="120" rx="230" ry="190" fill="#d4a5a5" fill-opacity="0.2"/>
+        <ellipse cx="110" cy="780" rx="250" ry="230" fill="#d3bd91" fill-opacity="0.2"/>
+        <ellipse cx="910" cy="840" rx="270" ry="230" fill="#6f7d5c" fill-opacity="0.18"/>
+        <ellipse cx="520" cy="470" rx="220" ry="180" fill="#c9b88f" fill-opacity="0.12"/>
+        <ellipse cx="500" cy="1280" rx="320" ry="240" fill="#d4a5a5" fill-opacity="0.16"/>
+        <ellipse cx="240" cy="1150" rx="210" ry="180" fill="#97a87c" fill-opacity="0.14"/>
+      </g>
+    </svg>
+  </div>
   <div class="page-bg__grain"></div>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="euca" viewBox="0 0 200 420">
@@ -1164,7 +1224,11 @@ body {
 <!-- Прелоадер -->
 <div class="preloader" id="preloader">
   <div class="preloader-inner">
-    <div class="preloader-monogram">A &amp; M</div>
+    <div class="preloader-names">
+      <span class="pl-name">Андрей</span>
+      <span class="pl-amp">&amp;</span>
+      <span class="pl-name pl-second">Мария</span>
+    </div>
     <div class="preloader-line"></div>
     <div class="preloader-text">22 · 08 · 2026</div>
   </div>
@@ -1422,7 +1486,7 @@ body {
 </section>
 
 <!-- ДРЕСС-КОД -->
-<section class="section reveal" style="background: var(--ivory); margin: 0; max-width: none; padding-left: 1.5rem; padding-right: 1.5rem;">
+<section class="section reveal" style="background: rgba(238,231,217,0.5); margin: 0; max-width: none; padding-left: 1.5rem; padding-right: 1.5rem;">
   <div style="max-width: 900px; margin: 0 auto;">
     <div class="section-eyebrow">просим обратить внимание</div>
     <h2 class="section-title">Дресс-код</h2>
@@ -1583,13 +1647,13 @@ function hidePreloader() {
 // 1. По DOMContentLoaded (HTML готов)
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(hidePreloader, 1500);
+    setTimeout(hidePreloader, 3300);
   });
 } else {
-  setTimeout(hidePreloader, 1500);
+  setTimeout(hidePreloader, 3300);
 }
-// 2. Аварийный fallback — точно скроется через 3 секунды что бы ни случилось
-setTimeout(hidePreloader, 3000);
+// 2. Аварийный fallback — точно скроется чтобы ни случилось
+setTimeout(hidePreloader, 5000);
 
 // Глобальный отлов ошибок чтобы один сбой не клал всю страницу
 window.addEventListener('error', function(e) {
@@ -1680,29 +1744,54 @@ if (!prefersReducedMotion) {
 }
 
 // ===== АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ =====
-var observer = new IntersectionObserver(function(entries) {
+// Для stagger-блоков считаем вектор «от центра» к каждому элементу (через offset —
+// не зависит от текущего transform), чтобы они выходили из центра к своим местам.
+function setStaggerOrigins(container) {
+  var cw = container.clientWidth / 2, ch = container.clientHeight / 2;
+  Array.prototype.forEach.call(container.children, function(el) {
+    var dx = (el.offsetLeft + el.offsetWidth / 2) - cw;
+    var dy = (el.offsetTop + el.offsetHeight / 2) - ch;
+    el.style.setProperty('--dx', Math.round(dx) + 'px');
+    el.style.setProperty('--dy', Math.round(dy) + 'px');
+  });
+}
+document.querySelectorAll('.stagger').forEach(setStaggerOrigins);
+var stagRt;
+window.addEventListener('resize', function() {
+  clearTimeout(stagRt);
+  stagRt = setTimeout(function() { document.querySelectorAll('.stagger').forEach(setStaggerOrigins); }, 250);
+});
+
+// Секции .reveal — одноразово (не дёргаем при каждом скролле)
+var revealObserver = new IntersectionObserver(function(entries) {
   entries.forEach(function(entry) {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
+      revealObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(function(el) { revealObserver.observe(el); });
 
-document.querySelectorAll('.reveal, .stagger').forEach(function(el) {
-  observer.observe(el);
-});
+// Stagger-блоки (дресс-код и т.п.) — двунаправленно: вниз собираются, вверх исчезают
+var staggerObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+    else entry.target.classList.remove('visible');
+  });
+}, { threshold: 0.18, rootMargin: '0px 0px -60px 0px' });
+document.querySelectorAll('.stagger').forEach(function(el) { staggerObserver.observe(el); });
 
 // ===== СЛЕДЫ ПРИ СКРОЛЛЕ — крупные шаги по синусоиде вниз =====
 (function() {
   var layer = document.getElementById('footsteps');
   if (!layer || prefersReducedMotion) return;
 
-  var footSVG = '<svg viewBox="0 0 24 32" fill="currentColor">' +
-    '<ellipse cx="12" cy="21" rx="7.5" ry="10"/>' +
-    '<ellipse cx="11" cy="7" rx="5.5" ry="5.5"/>' +
-    '<circle cx="6" cy="4" r="1.5"/><circle cx="10" cy="2.4" r="1.6"/>' +
-    '<circle cx="14" cy="2.6" r="1.5"/><circle cx="17.5" cy="4.5" r="1.3"/></svg>';
+  var footSVG = '<svg viewBox="0 0 28 40" fill="currentColor">' +
+    '<path d="M14 11 C 7 11, 5 17, 7 23 C 8 26, 9 28, 14 28 C 19 28, 20 26, 21 23 C 23 17, 21 11, 14 11 Z"/>' +
+    '<ellipse cx="14" cy="34" rx="5.5" ry="5"/>' +
+    '<circle cx="8" cy="6.6" r="1.7"/><circle cx="12" cy="4.6" r="1.9"/>' +
+    '<circle cx="16" cy="4.8" r="1.8"/><circle cx="19.6" cy="6.6" r="1.5"/><circle cx="22" cy="9" r="1.3"/></svg>';
 
   var steps = [];
 
@@ -1722,8 +1811,8 @@ document.querySelectorAll('.reveal, .stagger').forEach(function(el) {
     var amp = mobile ? 24 : 44;      // небольшой размах — дорожка вдоль левого края
     var cx = Math.max(56, vw * 0.072); // держимся у левого края страницы
     var period = mobile ? 340 : 440; // короткая волна — «шагающая» походка
-    var stride = mobile ? 8 : 12;    // разнос ног поперёк пути
-    var footOpacity = mobile ? 0.26 : 0.34;
+    var stride = mobile ? 10 : 15;   // разнос ног поперёк пути
+    var footOpacity = mobile ? 0.34 : 0.42;
     var TWO_PI = Math.PI * 2;
 
     var idx = 0;
