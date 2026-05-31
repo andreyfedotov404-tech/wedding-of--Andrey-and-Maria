@@ -232,19 +232,28 @@ body {
   position: absolute; inset: 0;
   background-image: url('photo-hero.jpg');
   background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  filter: saturate(0.4) brightness(0.3);
+  background-position: center 20%;
+  /* Фото — лишь тонкая атмосферная текстура, размытая и приглушённая */
+  filter: saturate(0.55) brightness(0.6) blur(2px);
+  opacity: 0.22;
+  transform: scale(1.06); /* убираем светлую кромку от blur */
   z-index: 0;
 }
 .program-overlay {
   position: absolute; inset: 0;
   background:
-    linear-gradient(180deg,
-      rgba(74,23,34,0.92) 0%,
-      rgba(42,26,31,0.88) 50%,
-      rgba(74,23,34,0.92) 100%);
+    radial-gradient(ellipse at 50% 0%, rgba(120,135,98,0.35), transparent 60%),
+    linear-gradient(165deg,
+      var(--burgundy-deep) 0%,
+      #3a4434 45%,
+      var(--burgundy-deep) 100%);
   z-index: 1;
+}
+/* Мягкая виньетка по краям для глубины */
+.program-overlay::after {
+  content: ''; position: absolute; inset: 0;
+  box-shadow: inset 0 0 140px 40px rgba(20,26,16,0.45);
+  pointer-events: none;
 }
 .program-section .section-title {
   color: var(--cream);
@@ -279,6 +288,159 @@ body {
 @media (max-width: 768px) {
   .program-bg { background-attachment: scroll; }
   .program-section { padding: 5rem 1.5rem; }
+}
+
+/* ===== КОНВЕРТ С РАСПИСАНИЕМ ===== */
+.program-stage { position: relative; z-index: 2; }
+
+/* Расписание (открытое состояние) */
+.schedule-open {
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-origin: top center;
+}
+.program-stage.is-closed .schedule-open {
+  opacity: 0; transform: scale(0.92) translateY(-10px);
+  pointer-events: none; position: absolute; inset: 0;
+  height: 0; overflow: hidden;
+}
+
+/* Кнопка «свернуть в конверт» */
+.collapse-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin: 2.5rem auto 0; padding: 13px 30px;
+  background: transparent; color: var(--gold-light);
+  border: 0.5px solid rgba(211,189,145,0.5); border-radius: 100px;
+  font-family: var(--sans); font-size: 12px; font-weight: 500;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.4s ease;
+}
+.collapse-btn:hover {
+  background: rgba(211,189,145,0.12);
+  border-color: var(--gold-light);
+  transform: translateY(-2px);
+}
+.collapse-btn svg { width: 16px; height: 16px; }
+.collapse-btn-wrap { text-align: center; }
+
+/* Конверт (закрытое состояние) */
+.envelope-stage {
+  display: none;
+  flex-direction: column; align-items: center;
+  padding: 1rem 0;
+}
+.program-stage.is-closed .envelope-stage { display: flex; }
+
+.envelope {
+  position: relative;
+  width: min(440px, 86vw);
+  aspect-ratio: 3 / 2;
+  cursor: pointer;
+  perspective: 1400px;
+  animation: envelopeBreathe 3.4s ease-in-out infinite;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.envelope:hover { transform: translateY(-4px); }
+@keyframes envelopeBreathe {
+  0%, 100% { filter: drop-shadow(0 18px 36px rgba(20,26,16,0.45)); }
+  50%      { filter: drop-shadow(0 24px 50px rgba(151,168,124,0.4)); transform: scale(1.018); }
+}
+
+/* Корпус конверта — бумага */
+.env-body {
+  position: absolute; inset: 0;
+  background: linear-gradient(155deg, #f7f1e4 0%, #ede4d1 100%);
+  border-radius: 6px;
+  box-shadow:
+    inset 0 0 0 1px rgba(184,154,94,0.4),
+    inset 0 2px 18px rgba(120,100,60,0.08);
+  overflow: hidden;
+}
+/* Боковые «грани» конверта — тонкие диагонали */
+.env-body::before, .env-body::after {
+  content: ''; position: absolute; bottom: 0;
+  width: 52%; height: 100%;
+  background: linear-gradient(120deg, transparent 49.6%, rgba(184,154,94,0.22) 49.7%, rgba(184,154,94,0.22) 50.3%, transparent 50.4%);
+}
+.env-body::before { left: 0; }
+.env-body::after { right: 0; transform: scaleX(-1); }
+
+/* Нижний клапан-«карман» */
+.env-pocket {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 58%;
+  background: linear-gradient(160deg, #efe6d3 0%, #e3d7bf 100%);
+  clip-path: polygon(0 100%, 0 30%, 50% 100%, 100% 30%, 100% 100%);
+  box-shadow: 0 -1px 6px rgba(120,100,60,0.06);
+}
+
+/* Верхний клапан (открывается вверх) */
+.env-flap {
+  position: absolute; left: 0; right: 0; top: 0; height: 62%;
+  background: linear-gradient(180deg, #f2e9d8 0%, #e6dac2 100%);
+  clip-path: polygon(0 0, 100% 0, 50% 96%);
+  transform-origin: top center;
+  transition: transform 0.7s cubic-bezier(0.5, 0, 0.2, 1), opacity 0.5s ease 0.3s;
+  z-index: 4;
+  box-shadow: 0 2px 8px rgba(120,100,60,0.12);
+}
+
+/* Лента (вертикальная + горизонтальная), атлас */
+.env-ribbon-v, .env-ribbon-h {
+  position: absolute; z-index: 3;
+  background: linear-gradient(90deg, #c98f8f, var(--rose) 40%, #c98f8f);
+  box-shadow: 0 1px 4px rgba(120,60,60,0.25);
+}
+.env-ribbon-v { top: 0; bottom: 0; left: 50%; width: 30px; transform: translateX(-50%);
+  background: linear-gradient(90deg, #c98f8f, var(--rose) 45%, #e4c4c4 50%, var(--rose) 55%, #c98f8f); }
+.env-ribbon-h { left: 0; right: 0; top: 50%; height: 30px; transform: translateY(-50%);
+  background: linear-gradient(180deg, #c98f8f, var(--rose) 45%, #e4c4c4 50%, var(--rose) 55%, #c98f8f); }
+
+/* Сургучная печать с монограммой */
+.env-seal {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 74px; height: 74px; border-radius: 50%; z-index: 5;
+  background: radial-gradient(circle at 38% 34%, #b0b994, var(--sage) 55%, #7d8c62 100%);
+  box-shadow:
+    0 4px 10px rgba(60,72,46,0.45),
+    inset 0 2px 6px rgba(255,255,255,0.25),
+    inset 0 -3px 8px rgba(40,52,30,0.4);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); color: #f3efe2; font-size: 24px;
+  letter-spacing: 1px; text-shadow: 0 1px 2px rgba(40,52,30,0.5);
+}
+.env-seal::before {
+  content: ''; position: absolute; inset: 6px;
+  border: 1px solid rgba(243,239,226,0.35); border-radius: 50%;
+}
+
+.env-hint {
+  margin-top: 1.6rem; font-family: var(--serif-soft); font-style: italic;
+  font-size: 16px; color: var(--gold-light); letter-spacing: 2px;
+  opacity: 0.9; animation: hintPulse 3.4s ease-in-out infinite;
+}
+@keyframes hintPulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+/* Состояние раскрытия конверта (короткая анимация перед показом расписания) */
+.envelope.opening { animation: none; }
+.envelope.opening .env-flap { transform: rotateX(165deg); opacity: 0; }
+.envelope.opening .env-ribbon-v { animation: ribbonSlideV 0.5s ease forwards; }
+.envelope.opening .env-ribbon-h { animation: ribbonSlideH 0.5s ease forwards; }
+.envelope.opening .env-seal { animation: sealPop 0.5s ease forwards; }
+@keyframes ribbonSlideV { to { transform: translateX(-50%) scaleY(0); opacity: 0; } }
+@keyframes ribbonSlideH { to { transform: translateY(-50%) scaleX(0); opacity: 0; } }
+@keyframes sealPop { 40% { transform: translate(-50%,-50%) scale(1.25); } to { transform: translate(-50%,-50%) scale(0); opacity: 0; } }
+
+/* Конфетти */
+.confetti-piece {
+  position: fixed; top: 40%; width: 9px; height: 9px;
+  pointer-events: none; z-index: 60; opacity: 0;
+  will-change: transform, opacity;
+}
+
+@media (max-width: 600px) {
+  .env-seal { width: 62px; height: 62px; font-size: 20px; }
+  .env-ribbon-v { width: 24px; }
+  .env-ribbon-h { height: 24px; }
 }
 
 /* ===== ОБЩАЯ СЕКЦИЯ ===== */
@@ -844,7 +1006,9 @@ body {
       <div class="section-divider-line"></div>
     </div>
 
-    <div class="timeline">
+    <div class="program-stage" id="program-stage">
+     <div class="schedule-open">
+      <div class="timeline">
       <div class="tl-item">
         <div class="tl-time">14:40</div>
         <div class="tl-marker"><div class="tl-dot"></div></div>
@@ -916,7 +1080,32 @@ body {
           <p>Танцы до 23:00</p>
         </div>
       </div>
-    </div>
+      </div><!-- /timeline -->
+
+      <div class="collapse-btn-wrap">
+        <button class="collapse-btn" id="collapse-btn" type="button" aria-label="Свернуть расписание в конверт">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="6" width="18" height="13" rx="1.5"/><path d="M3 7l9 7 9-7"/>
+          </svg>
+          свернуть в конверт
+        </button>
+      </div>
+     </div><!-- /schedule-open -->
+
+     <!-- Закрытое состояние: конверт -->
+     <div class="envelope-stage">
+       <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Открыть приглашение">
+         <div class="env-body">
+           <div class="env-pocket"></div>
+         </div>
+         <div class="env-ribbon-v"></div>
+         <div class="env-ribbon-h"></div>
+         <div class="env-flap"></div>
+         <div class="env-seal">A&amp;M</div>
+       </div>
+       <div class="env-hint">нажмите, чтобы открыть</div>
+     </div>
+    </div><!-- /program-stage -->
   </div>
 </section>
 
@@ -1179,6 +1368,74 @@ var observer = new IntersectionObserver(function(entries) {
 document.querySelectorAll('.reveal, .stagger').forEach(function(el) {
   observer.observe(el);
 });
+
+// ===== КОНВЕРТ С РАСПИСАНИЕМ =====
+(function() {
+  var stage = document.getElementById('program-stage');
+  var collapseBtn = document.getElementById('collapse-btn');
+  var envelope = document.getElementById('envelope');
+  if (!stage || !collapseBtn || !envelope) return;
+
+  // Свернуть расписание в конверт
+  collapseBtn.addEventListener('click', function() {
+    stage.classList.add('is-closed');
+  });
+
+  var isOpening = false;
+  function openEnvelope() {
+    if (isOpening) return;
+    isOpening = true;
+    if (!prefersReducedMotion) {
+      envelope.classList.add('opening');
+      fireConfetti(envelope);
+    }
+    var delay = prefersReducedMotion ? 0 : 720;
+    setTimeout(function() {
+      stage.classList.remove('is-closed');
+      envelope.classList.remove('opening');
+      isOpening = false;
+    }, delay);
+  }
+  envelope.addEventListener('click', openEnvelope);
+  envelope.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); }
+  });
+
+  // Деликатное конфетти из центра конверта
+  function fireConfetti(anchor) {
+    var rect = anchor.getBoundingClientRect();
+    var cx = rect.left + rect.width / 2;
+    var cy = rect.top + rect.height / 2;
+    var colors = ['#d4a5a5', '#97a87c', '#d3bd91', '#e4c4c4', '#b89a5e'];
+    var count = (isMobile || lowPower) ? 16 : 26;
+    for (var i = 0; i < count; i++) {
+      (function(i) {
+        var c = document.createElement('div');
+        c.className = 'confetti-piece';
+        var color = colors[i % colors.length];
+        c.style.background = color;
+        c.style.left = cx + 'px';
+        c.style.top = cy + 'px';
+        c.style.borderRadius = (Math.random() < 0.5) ? '50%' : '1px';
+        var angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5);
+        var dist = 60 + Math.random() * 120;
+        var dx = Math.cos(angle) * dist;
+        var dy = Math.sin(angle) * dist - 40; // лёгкий подброс вверх
+        var fall = 160 + Math.random() * 140;
+        var rot = (Math.random() * 720 - 360);
+        document.body.appendChild(c);
+        // запуск на след. кадре
+        requestAnimationFrame(function() {
+          c.style.transition = 'transform 1.3s cubic-bezier(0.15,0.6,0.3,1), opacity 1.3s ease';
+          c.style.opacity = '1';
+          c.style.transform = 'translate(' + dx + 'px,' + (dy + fall) + 'px) rotate(' + rot + 'deg)';
+          setTimeout(function() { c.style.opacity = '0'; }, 700);
+        });
+        setTimeout(function() { c.remove(); }, 1600);
+      })(i);
+    }
+  }
+})();
 
 // ===== ПЛАВНОЕ ПОЯВЛЕНИЕ ГЛАВНОГО ФОТО =====
 var couplePhoto = document.getElementById('couple-photo');
