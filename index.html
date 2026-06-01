@@ -176,6 +176,34 @@ body {
   100% { transform: translateY(110vh) translateX(var(--petal-drift, 60px)) rotate(540deg); opacity: 0; }
 }
 
+/* ===== ФОРМАТ-КОЛОНКА «ТЕЛЕФОН» (9:16) ===== */
+.phone-wrap {
+  position: relative; width: 100%; max-width: 500px; margin: 0 auto;
+  background: #f7f2ea;
+  box-shadow: 0 50px 130px -40px rgba(40,18,24,0.6), 0 0 0 1px rgba(74,23,34,0.06);
+  overflow: hidden; z-index: 1;
+}
+/* На телефоне колонка во весь экран, без рамки и тени */
+@media (max-width: 540px) {
+  .phone-wrap { max-width: 100%; box-shadow: none; }
+}
+/* Подгоняем контент под узкую колонку */
+.phone-wrap .hero-names { font-size: clamp(46px, 16vw, 66px); }
+.phone-wrap .section-title,
+.phone-wrap .program-section .section-title,
+.phone-wrap .rsvp-section .section-title { font-size: clamp(28px, 8.5vw, 38px); }
+.phone-wrap .countdown-grid { grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+.phone-wrap .dress-grid { grid-template-columns: repeat(2, 1fr); gap: 1.8rem 1rem; }
+.phone-wrap .wishes-grid { grid-template-columns: 1fr; }
+.phone-wrap .editorial-caption { display: none; }
+/* Компактный зиг-заг расписания в узкой колонке */
+.phone-wrap .tl-item { padding: 0.85rem 0.7rem; }
+.phone-wrap .tl-time { font-size: 18px; }
+.phone-wrap .tl-content h3 { font-size: 17px; }
+.phone-wrap .tl-content p { font-size: 14px; }
+/* Тропинка-следы прячется на узких экранах (нет бокового поля) */
+@media (max-width: 900px) { .footsteps { display: none; } }
+
 /* ===== HERO ===== */
 .hero {
   min-height: 100vh; min-height: 100svh;
@@ -1251,8 +1279,11 @@ body {
 <!-- Плавающие лепестки -->
 <div class="petals" id="petals"></div>
 
-<!-- Следы при скролле: крупные шаги по синусоиде вниз по странице -->
+<!-- Следы при скролле: крупные шаги по синусоиде вниз (в боковом поле десктопа) -->
 <div class="footsteps" id="footsteps"></div>
+
+<!-- ВЕСЬ САЙТ — В ВЕРТИКАЛЬНОЙ КОЛОНКЕ «ТЕЛЕФОН» -->
+<div class="phone-wrap">
 
 <!-- HERO -->
 <section class="hero">
@@ -1639,6 +1670,8 @@ body {
   <div class="footer-text">с любовью и нетерпением</div>
   <div class="footer-date">22 · 08 · 2026</div>
 </footer>
+
+</div><!-- /phone-wrap -->
 
 <script>
 // ===== ПРЕЛОАДЕР =====
