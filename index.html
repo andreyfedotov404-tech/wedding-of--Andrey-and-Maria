@@ -92,6 +92,12 @@ body {
   position: absolute; inset: 0; opacity: 0.05; mix-blend-mode: multiply;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+/* На телефоне колонка во весь экран полностью перекрывает фон — снимаем его
+   рендер (тяжёлый SVG-фильтр), чтобы скролл не тормозил. Вид не меняется. */
+@media (max-width: 540px) {
+  .page-bg { display: none; }
+  body { background: #f6f1e8; }
+}
 /* Эскизные ботанические ветви по краям — графитово-зелёные, очень деликатно */
 .page-bg__sprig { position: absolute; color: var(--graphite-soft); }
 .page-bg__sprig svg { display: block; width: 100%; height: 100%; }
@@ -168,7 +174,7 @@ body {
 .petal.sage::before { background: radial-gradient(ellipse 60% 100% at 50% 0%, #e3bcc2, var(--burgundy-light) 75%); }
 .petal.gold::before { background: radial-gradient(ellipse 60% 100% at 50% 0%, #e8d6ad, var(--gold-light) 75%); }
 /* Дальний слой — мельче, размытее, для ощущения глубины */
-.petal.far { filter: blur(1.2px); opacity: 0; }
+.petal.far { opacity: 0; }
 @keyframes fall {
   0%   { transform: translateY(-40px) translateX(0) rotate(0deg); opacity: 0; }
   12%  { opacity: var(--petal-opacity, 0.55); }
@@ -1047,8 +1053,7 @@ body {
   position: fixed; inset: 0; z-index: 200;
   display: flex; align-items: center; justify-content: center;
   padding: 24px;
-  background: rgba(58,20,30,0.55);
-  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  background: rgba(48,16,24,0.72);
   opacity: 0; visibility: hidden;
   transition: opacity 0.4s ease, visibility 0.4s ease;
 }
@@ -1109,12 +1114,11 @@ body {
 .music-toggle {
   position: fixed; bottom: 20px; right: 20px; z-index: 150;
   width: 50px; height: 50px; border-radius: 50%;
-  background: rgba(247,242,234,0.82);
+  background: rgba(247,242,234,0.96);
   border: 0.5px solid rgba(184,154,94,0.5);
   color: var(--sage-deep); cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 8px 22px -8px rgba(20,26,16,0.4);
-  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
   transition: transform 0.4s ease, background 0.3s ease, color 0.3s ease;
   opacity: 0; animation: heroFadeIn 1.2s ease 2.8s forwards;
 }
@@ -1177,7 +1181,6 @@ body {
   transition:
     opacity 1.05s ease,
     transform 1.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  will-change: transform, opacity;
 }
 .stagger.visible > * { opacity: 1; transform: translate(0, 0) scale(1); }
 /* Задержки на базовом селекторе — лесенка работает и при появлении, и при исчезании (медленнее, по одному) */
@@ -1795,11 +1798,11 @@ function createPetal() {
 }
 
 if (!prefersReducedMotion) {
-  // Реже на мобильных/слабых устройствах, чтобы не тормозило
-  var petalInterval = (isMobile || lowPower) ? 1600 : 900;
-  var initialCount = (isMobile || lowPower) ? 4 : 7;
+  // Реже и меньше на мобильных/слабых устройствах, чтобы скролл не тормозил
+  var petalInterval = (isMobile || lowPower) ? 2600 : 900;
+  var initialCount = (isMobile || lowPower) ? 3 : 7;
   setInterval(createPetal, petalInterval);
-  for (var i = 0; i < initialCount; i++) setTimeout(createPetal, i * 500);
+  for (var i = 0; i < initialCount; i++) setTimeout(createPetal, i * 600);
 }
 
 // ===== АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ =====
