@@ -23,38 +23,43 @@
 /* ===== СБРОС И ПЕРЕМЕННЫЕ ===== */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
-  /* ===== ПАЛИТРА: Sage + Dusty Rose + Champagne =====
-     Свежая, нежная, светлая гамма. Имена сохранены для совместимости,
-     но значения теперь «зелёно-розово-шампанские», а не бордовые. */
+  /* ===== ПАЛИТРА (мудборд): Burgundy · Olive Green · Chocolate · Pink =====
+     Глубокая благородная гамма. Светлый нейтральный (ivory) заменён на
+     нежный розовый blush. Имена переменных сохранены для совместимости. */
 
-  /* Основной тёмный (заголовки, акцентный текст) — вишнёво-бордовый */
-  --burgundy: #6e1f33;        /* благородный вишнёвый */
-  --burgundy-deep: #4a1622;   /* тёмная секция (программа/RSVP) */
-  --burgundy-light: #8c3a4c;  /* средний винный */
+  /* Бордо — основной акцент, заголовки, тёмная RSVP-секция */
+  --burgundy: #6b2330;        /* благородный бордовый */
+  --burgundy-deep: #33211a;   /* шоколад — тёмная секция (программа) */
+  --burgundy-light: #8a3a47;  /* средний винный */
 
-  /* Фоны — тёплая слоновая кость */
-  --cream: #f8f1ea;           /* основной фон */
-  --ivory: #f0e7dd;           /* светлая секция */
-  --ivory-dark: #e6d8c8;      /* заполнения/рамки */
+  /* Фоны — нежный розовый blush (вместо ivory) */
+  --cream: #f7e9e5;           /* основной фон */
+  --ivory: #efdcd6;           /* светлая секция */
+  --ivory-dark: #e6cbc4;      /* заполнения/рамки */
 
-  /* Шампань-золото (акценты, линии, детали) — благородно с бордо */
+  /* Золото/латунь (тонкие декоративные линии, печать) */
   --gold: #b8945a;
   --gold-light: #d8c08e;
 
-  /* Нежные акценты */
-  --rose: #c98a96;            /* пыльно-вишнёвая роза */
-  --rose-soft: #e3bcc2;
-  --sage: #9c4452;            /* акцент-кнопки: розовое дерево */
-  --sage-deep: #6e1f33;       /* глубокий вишнёвый акцент */
+  /* Нежный розовый (dusty rose) — романтичный акцент, ленты, лепестки */
+  --rose: #d49a9a;
+  --rose-soft: #ecc7c5;
+
+  /* Оливковый (свежий природный акцент — кнопки, печать, следы, ботаника) */
+  --sage: #6f7a2f;            /* olive green */
+  --sage-deep: #55611f;       /* deep olive */
+
+  /* Шоколад (глубокий тёплый коричневый) */
+  --chocolate: #33211a;
 
   /* Текст */
-  --ink: #3a1c22;            /* основной текст — тёмный бордово-коричневый */
-  --muted: #8a6d70;          /* приглушённый мов-серый */
+  --ink: #3a2418;            /* основной текст — тёплый тёмно-шоколадный */
+  --muted: #8a6d66;          /* приглушённый розово-коричневый */
 
-  /* Зелень оставляем для ботаники (эвкалипт) — классика с бордо */
-  --graphite: #5d6358;
-  --graphite-soft: #8a9183;
-  --ink-green: #3a1320;       /* перекрашен: глубокий вишнёвый для имён/заголовков */
+  /* Ботаника — оливково-зелёная (в тон палитре) */
+  --graphite: #5d6135;
+  --graphite-soft: #8d8f66;
+  --ink-green: #4a1622;       /* тёмный бордовый для заголовков на светлом */
 
   --serif: 'Playfair Display', Georgia, serif;
   --serif-soft: 'Cormorant Garamond', Georgia, serif;
@@ -79,7 +84,7 @@ body {
 .page-bg {
   position: fixed; inset: 0; z-index: -1; overflow: hidden;
   background:
-    radial-gradient(130% 90% at 50% -15%, #fcf8f1 0%, transparent 55%),
+    radial-gradient(130% 90% at 50% -15%, #fdf4f1 0%, transparent 55%),
     radial-gradient(90% 60% at 100% 100%, rgba(122,138,104,0.10), transparent 55%),
     radial-gradient(90% 60% at 0% 88%, rgba(196,176,150,0.10), transparent 55%),
     var(--cream);
@@ -96,7 +101,7 @@ body {
    рендер (тяжёлый SVG-фильтр), чтобы скролл не тормозил. Вид не меняется. */
 @media (max-width: 540px) {
   .page-bg { display: none; }
-  body { background: #f6f1e8; }
+  body { background: #f5e7e3; }
 }
 /* Эскизные ботанические ветви по краям — графитово-зелёные, очень деликатно */
 .page-bg__sprig { position: absolute; color: var(--graphite-soft); }
@@ -185,7 +190,7 @@ body {
 /* ===== ФОРМАТ-КОЛОНКА «ТЕЛЕФОН» (9:16) ===== */
 .phone-wrap {
   position: relative; width: 100%; max-width: 500px; margin: 0 auto;
-  background: #f7f2ea;
+  background: #f7e9e5;
   box-shadow: 0 50px 130px -40px rgba(40,18,24,0.6), 0 0 0 1px rgba(74,23,34,0.06);
   overflow: hidden; z-index: 1;
 }
@@ -337,11 +342,11 @@ body {
 .program-overlay {
   position: absolute; inset: 0;
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(150,55,75,0.22), transparent 60%),
+    radial-gradient(ellipse at 50% 0%, rgba(111,122,47,0.20), transparent 60%),
     linear-gradient(180deg,
-      rgba(58,16,28,0.86) 0%,
-      rgba(42,12,22,0.80) 50%,
-      rgba(58,16,28,0.9) 100%);
+      rgba(45,28,18,0.88) 0%,
+      rgba(34,21,14,0.82) 50%,
+      rgba(45,28,18,0.92) 100%);
   z-index: 1;
 }
 /* Мягкая виньетка по краям для глубины */
@@ -520,7 +525,7 @@ body {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   width: 74px; height: 74px; border-radius: 50%; z-index: 5;
-  background: radial-gradient(circle at 38% 34%, #a84b5d, #6e1f33 55%, #4a1622 100%);
+  background: radial-gradient(circle at 38% 34%, #9c3a48, #6b2330 55%, #4a1622 100%);
   box-shadow:
     0 4px 10px rgba(60,72,46,0.45),
     inset 0 2px 6px rgba(255,255,255,0.25),
@@ -750,7 +755,7 @@ body {
 .timeline { max-width: 640px; margin: 0 auto; position: relative; }
 /* Кремовая карточка-приглашение с расписанием на тёмном фоне программы */
 .program-section .timeline {
-  background: linear-gradient(180deg, #faf4e8 0%, #f1e7d2 100%);
+  background: linear-gradient(180deg, #fbf0ec 0%, #f1ddd6 100%);
   border-radius: 8px;
   padding: 1.6rem 2.2rem;
   box-shadow: 0 40px 80px -30px rgba(0,0,0,0.6), 0 10px 24px -12px rgba(0,0,0,0.4);
@@ -895,7 +900,7 @@ body {
 }
 @keyframes btnGlow {
   0%, 100% { box-shadow: 0 12px 30px -10px rgba(140,58,76,0.55); }
-  50%      { box-shadow: 0 14px 38px -8px rgba(150,55,75,0.75); }
+  50%      { box-shadow: 0 14px 38px -8px rgba(111,122,47,0.7); }
 }
 .btn-primary:hover { transform: translateY(-3px); }
 /* Блик, пробегающий по кнопке */
@@ -1257,7 +1262,7 @@ body {
         <ellipse cx="170" cy="150" rx="280" ry="210" fill="#8c3a4c" fill-opacity="0.22"/>
         <ellipse cx="880" cy="120" rx="230" ry="190" fill="#d4a5a5" fill-opacity="0.2"/>
         <ellipse cx="110" cy="780" rx="250" ry="230" fill="#d3bd91" fill-opacity="0.2"/>
-        <ellipse cx="910" cy="840" rx="270" ry="230" fill="#6e1f33" fill-opacity="0.16"/>
+        <ellipse cx="910" cy="840" rx="270" ry="230" fill="#6b2330" fill-opacity="0.16"/>
         <ellipse cx="520" cy="470" rx="220" ry="180" fill="#c9b88f" fill-opacity="0.12"/>
         <ellipse cx="500" cy="1280" rx="320" ry="240" fill="#d4a5a5" fill-opacity="0.16"/>
         <ellipse cx="240" cy="1150" rx="210" ry="180" fill="#c98a96" fill-opacity="0.16"/>
@@ -1435,14 +1440,7 @@ body {
         <div class="tl-marker"><div class="tl-dot"></div></div>
         <div class="tl-content">
           <h3>Welcome-фуршет</h3>
-        </div>
-      </div>
-      <div class="tl-item">
-        <div class="tl-time">16:00</div>
-        <div class="tl-marker"><div class="tl-dot"></div></div>
-        <div class="tl-content">
-          <h3>Сбор гостей</h3>
-          <p>Приезд на площадку</p>
+          <p>Сбор гостей</p>
         </div>
       </div>
       <div class="tl-item">
@@ -1558,9 +1556,9 @@ body {
 
     <div class="dress-grid stagger">
       <div class="dress-swatch">
-        <div class="dress-color" style="background: #6e1f33;"></div>
+        <div class="dress-color" style="background: #6b2330;"></div>
         <div class="dress-name">Burgundy</div>
-        <div class="dress-hex">#6E1F33</div>
+        <div class="dress-hex">#6B2330</div>
       </div>
       <div class="dress-swatch">
         <div class="dress-color" style="background: #4a1622;"></div>
